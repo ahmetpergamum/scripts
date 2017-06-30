@@ -1,58 +1,79 @@
 #!/bin/bash
-SERVER=server_ip
-PORT=server_port
+
+# proxy settings for environment, apt and wget
+SERVER=172.16.1.1
+PORT=8080
+
+if [ $# -ne 4 ] && [ $# -ne 0 ]
+then
+	echo "Usage for proxy settings with auth:"
+	echo "$0 -u username -p password"
+	echo "Usage for proxy settings without auth:"
+	echo "$0"
+	exit
+fi
 
 # assign empty string if there is no authentication
-USER="aaa:"
-#PASS="12345"
-PASS="aaaa@"
-
-# if the first parameter is the new password
-# it changes the password
-if [ $1 ]
+# do not give any command line parameter
+if [ $# -eq 0 ]
 then
-	sed -i "s/$PASS/$1@/" /etc/environment
-	sed -i "s/$PASS/$1@/" /etc/apt/apt.conf
-	sed -i "s/$PASS/$1@/" /etc/wgetrc
-
+	USER=""
+	PASS=""
+	echo "Proxy settings without authentication!!!"
 fi
+if [ "$1" == "-u" ]
+then
+	USER="$2:"
+fi
+if [ "$3" == "-p" ]
+then
+	PASS="$4@"
+	echo "Proxy settings with authentication!!!"
+fi
+
 
 FILE="/etc/environment"
 grep $SERVER $FILE &> /dev/null
-if [ $? -ne 0 ]
+if [ $? -eq 0 ]
 then
+	sed -i "/$SERVER/d" $FILE
+else
+	echo "no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"" >> $FILE
+	echo "NO_PROXY="localhost,127.0.0.1,localaddress,.localdomain.com"" >> FILE
+fi
+
 cat <<EOF >> $FILE
 http_proxy="http://$USER$PASS$SERVER:$PORT/"
 https_proxy="http://$USER$PASS$SERVER:$PORT/"
 ftp_proxy="http://$USER$PASS$SERVER:$PORT/"
 socks_proxy="socks://$USER$PASS$SERVER:$PORT/"
-no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
 HTTP_PROXY="http://$USER$PASS$SERVER:$PORT/"
 HTTPS_PROXY="http://$USER$PASS$SERVER:$PORT/"
 FTP_PROXY="http://$USER$PASS$SERVER:$PORT/"
 SOCKS_PROXY="socks://$USER$PASS$SERVER:$PORT/"
-NO_PROXY="localhost,127.0.0.1,localaddress,.localdomain.com"
 EOF
-fi
 
 FILE="/etc/apt/apt.conf"
 grep $SERVER $FILE &> /dev/null
-if [ $? -ne 0 ]
+if [ $? -eq 0 ]
 then
+	sed -i "/$SERVER/d" $FILE
+fi
 cat <<EOF >> $FILE
 Acquire::http::proxy "http://$USER$PASS$SERVER:$PORT/";
 Acquire::https::proxy "https://$USER$PASS$SERVER:$PORT/";
 Acquire::ftp::proxy "ftp://$USER$PASS$SERVER:$PORT/";
 Acquire::socks::proxy "socks://$USER$PASS$SERVER:$PORT/";
 EOF
-fi
 
 FILE="/etc/wgetrc"
 grep $SERVER $FILE &> /dev/null
-if [ $? -ne 0 ]
+if [ $? -eq 0 ]
 then
-cat <<EOF >> $FILE
-use_proxy=yes
-http_proxy=http://$USER$PASS$SERVER:$PORT/
-EOF
+	sed -i "/$SERVER/d" $FILE
+else
+	echo "use_proxy=yes" >> $FILE
 fi
+echo "http_proxy=http://$USER$PASS$SERVER:$PORT/" >> $FILE
+
+
