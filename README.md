@@ -1,2 +1,1 @@
-# scripts
-useful scripts to automate some staff
+### useful scripts to automate some staff
