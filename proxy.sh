@@ -76,4 +76,4 @@ else
 fi
 echo "http_proxy=http://$USER$PASS$SERVER:$PORT/" >> $FILE
 
-
+echo "Done..."
