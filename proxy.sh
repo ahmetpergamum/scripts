@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # proxy settings for environment, apt and wget
-SERVER=172.16.1.1
+SERVER=172.80.1.1
 PORT=8080
+
+function setproxy{
 
 if [ $# -ne 4 ] && [ $# -ne 0 ]
 then
@@ -75,5 +77,7 @@ else
 	echo "use_proxy=yes" >> $FILE
 fi
 echo "http_proxy=http://$USER$PASS$SERVER:$PORT/" >> $FILE
+echo "https_proxy=https://$USER$PASS$SERVER:$PORT/" >> $FILE
 
 echo "Done..."
+}
