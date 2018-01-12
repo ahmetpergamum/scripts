@@ -177,9 +177,9 @@ set backspace=indent,eol,start
 map <F8> :tabp<CR>
 map <F9> :tabn<CR>
 "map keys so python executes current script
-map <C-l> :w<CR>:!python %<CR>
-"map Ctrl+l to write file and run it by pyton
-imap <C-l> <Esc>:w<CR>:!python %<CR>
+map <C-s> :w<CR>:!python %<CR>
+"map Ctrl+s to write file and run it by pyton
+imap <C-s> <Esc>:w<CR>:!python %<CR>
 "Enter to insert a new-line after the current line
 "Ctrl-o for "inserting a line before the current line
 "stay in the line where you have been before with "j" and "k"

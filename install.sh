@@ -1,4 +1,4 @@
-#!/bin/bash
+# steps after new OS install
 # useful tools
 sudo apt install git
 sudo apt install curl
