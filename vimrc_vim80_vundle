@@ -1,0 +1,194 @@
+" vimrc configuration file for vim8 and vundle and youcompleteme
+
+" firstly do this:
+" for youcompleteme you need vim 7.4.143 or higher
+" git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+" Install development tools and CMake:
+" sudo apt-get install build-essential cmake
+" Make sure you have Python headers installed:
+" sudo apt-get install python-dev python3-dev
+" for installing plugins
+" :PluginInstall
+" Compiling YCM with semantic support for C-family languages:
+" cd ~/.vim/bundle/YouCompleteMe
+" ./install.py --clang-completer
+
+" if it fails to download clang 3.9.0
+" Downoad it manually and copy the exact loaction at the error log
+" wget http://llvm.org/releases/3.9.0/clang+llvm-3.9.0-x86_64-opensuse13.2.tar.xz
+" cp clang+llvm-3.9.0-x86_64-opensuse13.2.tar.xz /home/admin1/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/../clang_archives/clang+llvm-3.9.0-x86_64-opensuse13.2.tar.xz
+" if it does not works do this and try to install again
+" git submodule update --init --recursive
+" lastly
+" :PluginInstall
+" for flake8
+" sudo pip install --proxy user:password@172.16.1.1:8080 flake8
+
+" this is for vim8.0
+" after installation of vim 8.0 change runtime path to vim80
+" set runtimepath=~/.vim/,~/vim,/etc/vim,/usr/share/vim/vimfiles,/usr/share/vim/addons,/usr/share/vim/vim80,/usr/share/vim/vimfiles,/usr/share/vim/addons/after,~/.vim/after
+
+" color schemes require 256-bit gnome-terminal
+" if it does not work remove if clause set directly
+if $COLORTERM == 'gnome-terminal'
+	set t_Co=256
+endif
+
+set nocompatible              " required
+
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" alternatively, pass a path where Vundle should install plugins
+" call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
+" All of your Plugins must be added before the following line
+
+"Code Folding
+Plugin 'tmhedberg/SimpylFold'
+
+"Auto-Indentation
+Plugin 'vim-scripts/indentpython.vim'
+"Python sytax checker
+Plugin 'scrooloose/syntastic'
+"PEP8 checking
+Plugin 'nvie/vim-flake8'
+"Colors
+Plugin 'jnurmine/Zenburn'
+Plugin 'altercation/vim-colors-solarized'
+"Ctrl-n to enable filesystem
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+"Ctrl-P to enable the search and then just start typing
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+"status bar that displays things
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+call vundle#end()            " required
+filetype plugin indent on    " enables filetype detection
+
+":sv <filename> and you split the layout vertically
+":vs <filename> and you get a horizontal split 
+"specify different areas of the screen where the splits should occur
+set splitbelow
+set splitright
+"move between the splits without using the mouse
+"split navigations with Ctrl-k and Ctrl-j
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+"Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+"I don't like swap files
+set noswapfile
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+"tabs
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=100 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+"Flagging Unnecessary Whitespace
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h
+"create a new highlight group to highlight unwanted tabs and trailing spaces
+highlight BadWhitespace ctermbg=red guibg=darkred
+highlight UnwanttedTab ctermbg=red guibg=darkred
+highlight TrailSpace guibg=red ctermbg=darkred
+match BadWhitespace /\s\+$/
+match UnwanttedTab /\t/
+match TrailSpace / \+$/
+
+autocmd ColorScheme * highlight BadWhitespace ctermbg=red guibg=darkred
+autocmd ColorScheme * highlight UnwanttedTab ctermbg=red guibg=darkred
+autocmd ColorScheme * highlight TrailSpace guibg=red ctermbg=darkred
+
+set encoding=utf-8
+
+Bundle 'Valloric/YouCompleteMe'
+
+"let g:ycm_autoclose_preview_window_after_completion=1
+"map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+"python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"import vim
+"if 'VIRTUAL_ENV' in os.environ:
+"	project_base_dir = os.environ['VIRTUAL_ENV']
+"	sys.path.insert(0, project_base_dir)
+"	activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"	execfile(activate_this, dict(__file__=activate_this))
+"EOF
+
+"make your code look pretty
+let python_highlight_all=1
+syntax on
+
+"Check out solarized for GUI mode, and Zenburn for terminal mode
+if has('gui_running')
+	set background=dark
+	colorscheme solarized
+else
+	"colorscheme distinguished
+	colorscheme zenburn
+endif
+
+call togglebg#map("<F5>")
+
+map <C-n> :NERDTreeToggle<CR>
+
+"hide .pyc files
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+"see the docstrings for folded code
+"let g:SimpylFold_docstring_preview=1
+
+"Line Numbering
+set nu
+
+" make backspaces more powerfull
+set backspace=indent,eol,start
+
+"CUSTOM KEY MAPPINGS
+"navigate between tabs
+map <F8> :tabp<CR>
+map <F9> :tabn<CR>
+"map keys so python executes current script
+map <C-l> :w<CR>:!python %<CR>
+"map Ctrl+l to write file and run it by pyton
+imap <C-l> <Esc>:w<CR>:!python %<CR>
+"Enter to insert a new-line after the current line
+"Ctrl-o for "inserting a line before the current line
+"stay in the line where you have been before with "j" and "k"
+nmap <C-o> O<Esc>j
+nmap <CR> o<Esc>k
+"comment lines easily in normal(command) mode
+"with <F10> and <F12>
+nmap <F3> 0i#<Space><Esc>h
+nmap <F4> <End>a<Tab><Tab>#<Space>
+
+let mapleader=" "
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
