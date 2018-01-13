@@ -8,12 +8,12 @@ sudo apt install zsh
 # oh my zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 # append "zsh" at the end of .bashrc
-# change themes from .zshrc file 
+# change themes from .zshrc file
 ZSH_THEME="agnoster"
 # in order to view beatiful themes run this command, powerline-fonts
 sudo apt-get install fonts-powerline
 
-# vim plug installation with neovim
+# vim plug installation with vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # to source your .vimrc file use ":source" command in vim not in bash
@@ -24,7 +24,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 sudo add-apt-repository ppa:neovim-ppa/stable
 
 sudo apt update
-sudo apt install neovim 
+sudo apt install neovim
 # python prerequisities
 sudo apt-get install python-dev python-pip python3-dev python3-pip
 # vim plug installation with neovim
