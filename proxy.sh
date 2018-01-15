@@ -1,9 +1,9 @@
 #!/bin/bash
-
 # proxy settings for environment, apt and wget
-echo "Proxy Server Address"
+
+echo "Proxy Server Address:"
 read SERVER
-echo "Proxy Server Port"
+echo "Proxy Server Port:"
 read PORT
 echo "Proxy User Name:"
 read USERNAME
@@ -11,19 +11,19 @@ echo "Proxy Password:"
 read -s PASSW
 
 
-# FILE="~/.bashrc"
+FILE="~/.bashrc"
 # # dosyada kullanici sifre iceren proxy patterni var mi
-# grep "://.*@.*[0-9]:[0-9]" $FILE &> /dev/null
+grep "://.*@.*[0-9]:[0-9]" $FILE &> /dev/null
 # # varsa sadece kullanici adi sifre ve sunucu bilgilerini degistir
-# if [ $? -eq 0 ]
-# then
-# 	sudo sed -i "s/\:\/\/.*@.*$/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\//" $FILE
-# 	source $FILE
-# else
-#  	sudo sed -i "\$aexport http_proxy=http://$USERNAME.$PASSW@$SERVER:$PORT" $FILE
-#  	sudo sed -i "\$aexport https_proxy=https://$USERNAME.$PASSW@$SERVER:$PORT" $FILE
-# 	source $FILE
-# fi
+if [ $? -eq 0 ]
+then
+	sudo sed -i "s/\:\/\/.*@.*$/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\//" $FILE
+	source $FILE > /dev/null
+else
+	sudo sed -i "\$aexport http_proxy=http://$USERNAME:$PASSW@$SERVER:$PORT/" $FILE
+	sudo sed -i "\$aexport https_proxy=https://$USERNAME:$PASSW@$SERVER:$PORT/" $FILE
+	source $FILE > /dev/null
+fi
 
 FILE="/etc/wgetrc"
 # dosyada kullanici sifre iceren proxy patterni var mi
@@ -43,7 +43,7 @@ grep "://.*@.*[0-9]:[0-9]" $FILE &> /dev/null
 # varsa sadece kullanici adi sifre ve sunucu bilgilerini degistir
 if [ $? -eq 0 ]
 then
-	sudo sed -i "s/\:\/\/.*@.*$/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\//" $FILE
+	sudo sed -i "s/\:\/\/.*@.*$/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\/\"/" $FILE
 else
 	sudo sed -i "\$ahttp_proxy=\"http://$USERNAME:$PASSW@$SERVER:$PORT/\"" $FILE
 	sudo sed -i "\$ahttps_proxy=\"http://$USERNAME:$PASSW@$SERVER:$PORT/\"" $FILE
@@ -62,11 +62,11 @@ grep "://.*@.*[0-9]:[0-9]" $FILE &> /dev/null
 # varsa sadece kullanici adi sifre ve sunucu bilgilerini degistir
 if [ $? -eq 0 ]
 then
-	sudo sed -i "s/\:\/\/.*@.*$/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\//" $FILE
+	sudo sed -i "s/\:\/\/.*@.*/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\/\"/" $FILE
 else
 	echo "# apt configuration file" | sudo tee -a $FILE > /dev/null
 	sudo sed -i "\$aAcquire::http::proxy \"http://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
-	sudo sed -i "\$\$aAcquire::https::proxy \"https://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
+	sudo sed -i "\$aAcquire::https::proxy \"https://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
 	sudo sed -i "\$aAcquire::ftp::proxy \"ftp://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
 	sudo sed -i "\$aAcquire::socks::proxy \"socks://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
 fi
