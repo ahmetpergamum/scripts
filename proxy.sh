@@ -83,9 +83,4 @@ else
 	git config --global https.proxy https://$USERNAME:$PASSW@$SERVER:$PORT
 fi
 
-# 	export http_proxy=http://$SERVER:$PORT
-# 	export https_proxy=https://$SERVER:$PORT
-#
-#
-#
 echo "Done..."
