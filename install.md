@@ -60,7 +60,6 @@ sudo apt-get install libgconf2-4 libnss3-1d libxss1
 sudo apt install -f
 ```
 
-
 ## flash plugin for firefox
 ### download latest adobe flash plugin [download page](https://get.adobe.com/flashplayer/)
 ```
@@ -93,10 +92,10 @@ sudo apt-get install -y libav-tools
 youtube-dl -o '%(title)s.%(ext)s' --restrict-filenames -i -x --audio-format mp3 url
 ```
 
-##Proxy ayarlari
+## Proxy ayarlari
 
-###Sistem için
-####/etc/environment
+### Sistem için
+#### /etc/environment
 ```
 http_proxy="http://proxy:8080/"
 https_proxy="http://proxy:8080/"
@@ -109,13 +108,13 @@ FTP_PROXY="http://proxy:8080/"
 SOCKS_PROXY="socks://proxy:8080/"
 NO_PROXY="localhost,127.0.0.1,localaddress,.localdomain.com"
 ```
-####Authenticaiton varsa;
+#### Authenticaiton varsa;
 ```
 "http://user_name:password@proxy:8080/"
 ```
 
-###Apt için
-####/etc/apt/apt.conf
+### Apt için
+#### /etc/apt/apt.conf
 ```
 Acquire::http::proxy "http://proxy:8080/"; 
 Acquire::https::proxy "https://proxy:8080/"; 
@@ -123,28 +122,28 @@ Acquire::ftp::proxy "ftp://proxy:8080/";
 Acquire::socks::proxy "socks://proxy:8080/"; 
 ```
 
-###Wget için
+### Wget için
 ```
 use_proxy=yes
 http_proxy=http://proxy:8080 
 https_proxy=http://proxy:8080 
 ```
 
-###Pip için
+### Pip için
 ```
 sudo pip install --proxy http://proxy:8080 <module_name>
 ```
 
-###Easy install için
+### Easy install için
 ```
 export http_proxy=http://proxy:8080
 ```
-####modülü kurmak için
+#### modülü kurmak için
 ```
 sudo -E easy_install <module_name>
 ```
 
-###Geçici olarak o andaki oturumda geçerli olması için
+### Geçici olarak o andaki oturumda geçerli olması için
 ```
 export http_proxy=http://proxy:8080
 export https_proxy=https://proxy:8080
