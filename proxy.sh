@@ -62,13 +62,13 @@ grep "://.*@.*[0-9]:[0-9]" $FILE &> /dev/null
 # varsa sadece kullanici adi sifre ve sunucu bilgilerini degistir
 if [ $? -eq 0 ]
 then
-	sudo sed -i "s/\:\/\/.*@.*/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\/\"/" $FILE
+	sudo sed -i "s/\:\/\/.*@.*$/\:\/\/$USERNAME:$PASSW\@$SERVER:$PORT\/\"\;/" $FILE
 else
 	echo "# apt configuration file" | sudo tee -a $FILE > /dev/null
-	sudo sed -i "\$aAcquire::http::proxy \"http://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
-	sudo sed -i "\$aAcquire::https::proxy \"https://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
-	sudo sed -i "\$aAcquire::ftp::proxy \"ftp://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
-	sudo sed -i "\$aAcquire::socks::proxy \"socks://$USERNAME:$PASSW@$SERVER:$PORT/\";" $FILE
+	sudo sed -i "\$aAcquire::http::proxy \"http://$USERNAME:$PASSW@$SERVER:$PORT/\"\;" $FILE
+	sudo sed -i "\$aAcquire::https::proxy \"https://$USERNAME:$PASSW@$SERVER:$PORT/\"\;" $FILE
+	sudo sed -i "\$aAcquire::ftp::proxy \"ftp://$USERNAME:$PASSW@$SERVER:$PORT/\"\;" $FILE
+	sudo sed -i "\$aAcquire::socks::proxy \"socks://$USERNAME:$PASSW@$SERVER:$PORT/\"\;" $FILE
 fi
 
 FILE="~/.gitconfig"
