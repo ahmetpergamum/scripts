@@ -18,9 +18,21 @@ change themes from .zshrc file
 ```
 ZSH_THEME="agnoster"
 ```
+### powerline-fonts installation
 in order to view beatiful themes run this command, powerline-fonts
 ```
 sudo apt-get install fonts-powerline
+```
+manual installation 
+```
+# clone
+git clone https://github.com/powerline/fonts.git --depth=1
+# install
+cd fonts
+./install.sh
+# clean-up a bit
+cd ..
+rm -rf fonts
 ```
 
 ## vim plug installation with vim
