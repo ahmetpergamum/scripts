@@ -36,9 +36,15 @@ rm -rf fonts
 ```
 
 ## vim plug installation with vim
+with curl
 ```
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+manual way
+```
+wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+mv plug.vim ~/.vim/autoload/.
 ```
 to source your .vimrc file use ":source" command in vim not in bash
 ```
