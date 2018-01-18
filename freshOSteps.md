@@ -11,7 +11,7 @@ sudo apt install zsh
 ```
 ##  oh my zsh
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
 ###  append "zsh" at the end of .bashrc
 ### change themes from .zshrc file
