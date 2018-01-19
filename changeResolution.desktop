@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=ChangeRes
+GenericName=ChangeRes
+Comment=Some description about your script
+Exec=/usr/bin/changeResolution.sh
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
