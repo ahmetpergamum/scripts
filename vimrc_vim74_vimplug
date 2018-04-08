@@ -168,3 +168,5 @@ nmap <CR> o<Esc>k
 "with <F3> and <F4>
 nmap <F3> 0i#<Space><Esc>h
 nmap <F4> <End>a<Tab><Tab>#<Space>
+"disable vimtex warnings
+let g:vimtex_compiler_latexmk = {'callback' : 0}
