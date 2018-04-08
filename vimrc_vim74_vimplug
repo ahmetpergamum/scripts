@@ -38,6 +38,11 @@ Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 "status bar that displays things
 Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"markdown plugins
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+"latex plugin
+Plug 'lervag/vimtex'
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " Plug 'junegunn/vim-easy-align'
 
