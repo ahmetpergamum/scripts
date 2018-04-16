@@ -179,7 +179,7 @@ sudo cp foo.crt /usr/share/ca-certificates/new_cert_dir/foo.crt
 İşletim sisteminin sertifika dizin ve dosya bilgisini konfigurasyon dosyasına yazması için
 ```
 sudo dpkg-reconfigure ca-certificates
-``` 
+```
 Çıkan ekranda yeni yüklenecek sertifika işaretlenir ve kurulum tamamlanır
 
 ## Git ayarları
