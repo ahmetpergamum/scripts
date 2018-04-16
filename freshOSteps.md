@@ -181,3 +181,15 @@ sudo cp foo.crt /usr/share/ca-certificates/new_cert_dir/foo.crt
 sudo dpkg-reconfigure ca-certificates
 ``` 
 Çıkan ekranda yeni yüklenecek sertifika işaretlenir ve kurulum tamamlanır
+
+## Git ayarları
+Yaptığımız değişikliklerde kullanıcı adımız ve eposta adresimiz bu şekilde gözükür.
+```
+git config --global user.name "username"
+git config --global user.email you@example.com
+```
+Her seferinde parola girmememek için; cache de 1 saat saklanabilir
+```
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=3600'
+```
