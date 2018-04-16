@@ -166,3 +166,18 @@ sudo -E easy_install <module_name>
 export http_proxy=http://proxy:8080
 export https_proxy=https://proxy:8080
 ```
+## Sertifika ayarları
+Sertifika dosyası .pem uzantılı olarak verildiyse .crt uzantılı hale getirilir
+```
+openssl x509 -in foo.pem -inform PEM -out foo.crt
+```
+Sertifika dosyası ayrı bir dizine kopyalanır
+```
+sudo mkdir /usr/share/ca-certificates/new_cert_dir
+sudo cp foo.crt /usr/share/ca-certificates/new_cert_dir/foo.crt
+```
+İşletim sisteminin sertifika dizin ve dosya bilgisini konfigurasyon dosyasına yazması için
+```
+sudo dpkg-reconfigure ca-certificates
+``` 
+Çıkan ekranda yeni yüklenecek sertifika işaretlernir ve kurulum tamamlanır
