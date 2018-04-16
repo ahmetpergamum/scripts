@@ -180,4 +180,4 @@ sudo cp foo.crt /usr/share/ca-certificates/new_cert_dir/foo.crt
 ```
 sudo dpkg-reconfigure ca-certificates
 ``` 
-Çıkan ekranda yeni yüklenecek sertifika işaretlernir ve kurulum tamamlanır
+Çıkan ekranda yeni yüklenecek sertifika işaretlenir ve kurulum tamamlanır
