@@ -85,6 +85,30 @@ tar zxvf flash_player_npapi_linux.x86_64.tar.gz
 sudo cp libflashplayer.so /usr/lib/firefox-addons/plugins
 ```
 
+## latex installation
+```
+sudo apt install texlive
+```
+Run latex to produce documents from .tex docs
+```
+latex test.tex
+```
+To view .dvi output, press q to quit
+```
+xdvi test.dvi &
+```
+To produce a PDF of this you simply run pdflatex instead of latex
+```
+pdflatex test.tex
+```
+To work with .bib files for references
+```
+pdflatex test.tex
+pdflatex test.tex
+bibtex reference_file
+pdflatex test.tex
+```
+
 ## vpn installation
 ```
 sudo apt install gdebi gksu
