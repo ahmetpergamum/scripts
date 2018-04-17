@@ -123,7 +123,7 @@ Fetch the Oracle GPG public key and import it to your Ubuntu 16.04/Debian 8 syst
 ```
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 ```
-Update local package index and install Virtualbox 5.1
+Update local package index and install Virtualbox
 ```
 sudo apt update
 sudo apt install virtualbox-5.2
