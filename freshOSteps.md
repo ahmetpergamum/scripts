@@ -3,6 +3,7 @@
 ```
 sudo apt install git
 sudo apt install curl
+sudo apt install unrar
 ```
 
 ##  zsh installation
@@ -23,7 +24,7 @@ in order to view beatiful themes run this command, powerline-fonts
 ```
 sudo apt-get install fonts-powerline
 ```
-manual installation 
+manual installation
 ```
 # clone
 git clone https://github.com/powerline/fonts.git --depth=1
@@ -70,6 +71,9 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 ## chrome installation
 ```
 sudo dpkg -i google-chrome-stable_current_amd64.deb
+```
+If there is a problem (optional);
+```
 sudo add-apt-repository universe
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
 sudo add-apt-repository "deb http://archive.canonical.com/ubuntu $(lsb_release -sc) partner"
@@ -79,7 +83,7 @@ sudo apt install -f
 ```
 
 ## flash plugin for firefox
-download latest adobe flash plugin [download page](https://get.adobe.com/flashplayer/)
+Download latest adobe flash plugin [download page](https://get.adobe.com/flashplayer/)
 ```
 tar zxvf flash_player_npapi_linux.x86_64.tar.gz
 sudo cp libflashplayer.so /usr/lib/firefox-addons/plugins
@@ -108,7 +112,28 @@ pdflatex test.tex
 bibtex reference_file
 pdflatex test.tex
 ```
-
+## virtualbox installation
+### with apt
+Append the following line at the end of this file if you are using Ubuntu 16.04
+```
+sudo sed -i "adeb http://download.virtualbox.org/virtualbox/debian xenial contrib" /etc/apt/sources.list
+```
+Fetch the Oracle GPG public key and import it to your Ubuntu 16.04/Debian 8 system
+```
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+```
+Download latest virtualbox [download page](https://www.virtualbox.org/wiki/Linux_Downloads)
+Update local package index and install Virtualbox 5.1
+```
+sudo apt update
+sudo apt install virtualbox-5.2
+```
+### with dpkg
+Download latest virtualbox [download page](https://www.virtualbox.org/wiki/Linux_Downloads)
+Install with dpkg
+```
+dpkg -i virtualbox-5.2_5.2.8-121009_Ubuntu_xenial_amd64.deb
+```
 ## vpn installation
 ```
 sudo apt install gdebi gksu
