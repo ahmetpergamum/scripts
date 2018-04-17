@@ -116,7 +116,8 @@ pdflatex test.tex
 ### with apt
 Append the following line at the end of this file if you are using Ubuntu 16.04
 ```
-sudo sed -i "adeb http://download.virtualbox.org/virtualbox/debian xenial contrib" /etc/apt/sources.list
+l=$(wc -l /etc/apt/sources.list | awk '{print $1}')
+sudo sed -i "$l a\deb http://download.virtualbox.org/virtualbox/debian xenial contrib" /etc/apt/sources.list
 ```
 Fetch the Oracle GPG public key and import it to your Ubuntu 16.04/Debian 8 system
 ```
