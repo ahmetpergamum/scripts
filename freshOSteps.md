@@ -8,18 +8,18 @@ Contents
 - [Zsh Installation](#zsh installation)
 -	* [Oh-my-zsh](#oh my zsh installation)
 
-##  useful tools
+#  useful tools
 ```
 sudo apt install git
 sudo apt install curl
 sudo apt install unrar
 ```
 
-##  zsh installation
+#  zsh installation
 ```
 sudo apt install zsh
 ```
-###  oh my zsh installation
+##  oh my zsh installation
 ```
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
