@@ -6,16 +6,18 @@ Contents
 
 - [Useful Tools](#useful tools)
 - [Zsh Installation](#zsh installation)
--	* [Oh-my-zsh](#oh my zsh installation)
+	- [Oh-my-zsh](#oh my zsh installation)
 
-#  useful tools
+useful tools
+------------
 ```
 sudo apt install git
 sudo apt install curl
 sudo apt install unrar
 ```
 
-#  zsh installation
+zsh installation
+----------------
 ```
 sudo apt install zsh
 ```
