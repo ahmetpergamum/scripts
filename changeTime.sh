@@ -10,3 +10,4 @@ do
 	touch -m -t ${tstamp}0000 $line
 	sleep 1
 done<filenames.txt
+rm filenames.txt

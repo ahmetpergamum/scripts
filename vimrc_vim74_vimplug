@@ -21,6 +21,8 @@ Plug 'tmhedberg/SimpylFold'
 
 "Auto-Indentation
 Plug 'vim-scripts/indentpython.vim'
+"Python autocomplete
+Plug 'davidhalter/jedi-vim'
 "Python sytax checker
 Plug 'scrooloose/syntastic'
 "PEP8 checking
