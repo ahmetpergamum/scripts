@@ -33,7 +33,7 @@ Plug 'jnurmine/Zenburn'
 Plug 'altercation/vim-colors-solarized'
 "Ctrl-n to enable filesystem
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-"Plug 'scrooloose/nerdtree'
+"Plug 'scrooloose/nerdcommenter'
 Plug 'jistr/vim-nerdtree-tabs'
 "Ctrl-P to enable the search and then just start typing
 Plug 'kien/ctrlp.vim'
@@ -71,6 +71,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug '~/my-prototype-plugin'
 "
 call plug#end()
+
 filetype plugin indent on    " enables filetype detection
 
 ":sv <filename> and you split the layout vertically
@@ -177,3 +178,7 @@ nmap <F3> 0i#<Space><Esc>h
 nmap <F4> <End>a<Tab><Tab>#<Space>
 "disable vimtex warnings
 let g:vimtex_compiler_latexmk = {'callback' : 0}
+" enable omnicompletion
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+imap <C-a> <C-X><C-O>
