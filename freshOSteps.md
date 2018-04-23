@@ -1,16 +1,27 @@
-# Basic steps after new OS install
-##  useful tools
+Basic steps after new OS install
+================================
+
+Contents
+--------
+
+- [Useful Tools](#useful tools)
+- [Zsh Installation](#zsh installation)
+	- [Oh-my-zsh](#oh my zsh installation)
+
+useful tools
+------------
 ```
 sudo apt install git
 sudo apt install curl
 sudo apt install unrar
 ```
 
-##  zsh installation
+zsh installation
+----------------
 ```
 sudo apt install zsh
 ```
-###  oh my zsh installation
+##  oh my zsh installation
 ```
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
@@ -145,6 +156,14 @@ show all services and find your service
 service --status-all
 sudo systemctl disable  via-vpn
 ```
+Verify the installation with dpkg
+```
+dpkg -l | grep via
+```
+Uninstall with dpkg
+```
+sudo dpkg -r via
+```
 ## youtube-dl installation
 ```
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
@@ -157,6 +176,33 @@ sudo apt-get install -y libav-tools
 sample command
 ```
 youtube-dl -o '%(title)s.%(ext)s' --restrict-filenames -i -x --audio-format mp3 url
+```
+## Sertifika ayarları
+Sertifika dosyası .pem uzantılı olarak verildiyse .crt uzantılı hale getirilir
+```
+openssl x509 -in foo.pem -inform PEM -out foo.crt
+```
+Sertifika dosyası ayrı bir dizine kopyalanır
+```
+sudo mkdir /usr/share/ca-certificates/new_cert_dir
+sudo cp foo.crt /usr/share/ca-certificates/new_cert_dir/foo.crt
+```
+İşletim sisteminin sertifika dizin ve dosya bilgisini konfigurasyon dosyasına yazması için
+```
+sudo dpkg-reconfigure ca-certificates
+```
+Çıkan ekranda yeni yüklenecek sertifika işaretlenir ve kurulum tamamlanır
+
+## Git ayarları
+Yaptığımız değişikliklerde kullanıcı adımız ve eposta adresimiz bu şekilde gözükür.
+```
+git config --global user.name "username"
+git config --global user.email you@example.com
+```
+Her seferinde parola girmememek için; cache de 1 saat saklanabilir
+```
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=3600'
 ```
 
 ## Proxy ayarlari
@@ -192,8 +238,8 @@ Acquire::socks::proxy "socks://proxy:8080/";
 ### Wget için
 ```
 use_proxy=yes
-http_proxy=http://proxy:8080 
-https_proxy=http://proxy:8080 
+http_proxy=http://proxy:8080
+https_proxy=http://proxy:8080
 ```
 
 ### Pip için
@@ -215,31 +261,3 @@ sudo -E easy_install <module_name>
 export http_proxy=http://proxy:8080
 export https_proxy=https://proxy:8080
 ```
-## Sertifika ayarları
-Sertifika dosyası .pem uzantılı olarak verildiyse .crt uzantılı hale getirilir
-```
-openssl x509 -in foo.pem -inform PEM -out foo.crt
-```
-Sertifika dosyası ayrı bir dizine kopyalanır
-```
-sudo mkdir /usr/share/ca-certificates/new_cert_dir
-sudo cp foo.crt /usr/share/ca-certificates/new_cert_dir/foo.crt
-```
-İşletim sisteminin sertifika dizin ve dosya bilgisini konfigurasyon dosyasına yazması için
-```
-sudo dpkg-reconfigure ca-certificates
-```
-Çıkan ekranda yeni yüklenecek sertifika işaretlenir ve kurulum tamamlanır
-
-## Git ayarları
-Yaptığımız değişikliklerde kullanıcı adımız ve eposta adresimiz bu şekilde gözükür.
-```
-git config --global user.name "username"
-git config --global user.email you@example.com
-```
-Her seferinde parola girmememek için; cache de 1 saat saklanabilir
-```
-git config --global credential.helper cache
-git config --global credential.helper 'cache --timeout=3600'
-```
-
