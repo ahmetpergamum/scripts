@@ -6,7 +6,19 @@ Contents
 
 - [Useful Tools](./freshOSteps.md#useful-tools)
 - [Zsh Installation](./freshOSteps.md#zsh-installation)
-	- [Oh-my-zsh](./freshOSteps.md#oh-my-zsh-installation)
+	- [Oh-My-Zsh-Installation](./freshOSteps.md#oh-my-zsh-installation)
+		- [Powerline-Fonts](./freshOSteps.md#powerline-fonts-installation)
+- [Vim-Plug Installation](./freshOSteps.md#vim-plug-installation)
+- [Neovim Installation](./freshOSteps.md#neovim-installation)
+- [Chrome Installation](.freshOSteps.md#chrome-installation)
+- [flash plugin for firefox](.freshOSteps.md#flash-plugin-for-firefox)
+- [Latex Installation](.freshOSteps.md#latex-installation)
+- [Virtualbox Installation](.freshOSteps.md#virtualbox-installation)
+- [Vpn Installation](.freshOSteps.md#vpn-installation)
+- [Youtube-dl Installation](.freshOSteps.md#youtube-dl-installation)
+- [Certificate Settings](.freshOSteps.md#certificate-settings)
+- [Git Settings](.freshOSteps.md#git-settings)
+- [Proxy Settings](.freshOSteps.md#proxy-settings)
 
 useful tools
 ------------
@@ -26,7 +38,7 @@ zsh installation
 ```
 sudo apt install zsh
 ```
-##  oh my zsh installation
+###  oh my zsh installation
 ```
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
@@ -52,7 +64,8 @@ cd ..
 rm -rf fonts
 ```
 
-## vim plug installation with vim
+vim plug installation
+---------------------
 with curl
 ```
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -68,7 +81,9 @@ to source your .vimrc file use ":source" command in vim not in bash
 :source ~/.vimrc
 ```
 
-## neovim installation - optional
+neovim installation
+-------------------
+This is optional
 ```
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt update
@@ -84,7 +99,8 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
-## chrome installation
+chrome installation
+-------------------
 ```
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
@@ -98,14 +114,16 @@ sudo apt-get install libgconf2-4 libnss3-1d libxss1
 sudo apt install -f
 ```
 
-## flash plugin for firefox
+flash plugin for firefox
+------------------------
 Download latest adobe flash plugin [download page](https://get.adobe.com/flashplayer/)
 ```
 tar zxvf flash_player_npapi_linux.x86_64.tar.gz
 sudo cp libflashplayer.so /usr/lib/firefox-addons/plugins
 ```
 
-## latex installation
+latex installation
+------------------
 ```
 sudo apt install texlive
 ```
@@ -128,7 +146,8 @@ pdflatex test.tex
 bibtex reference_file
 pdflatex test.tex
 ```
-## virtualbox installation
+virtualbox installation
+-----------------------
 ### with apt
 Append the following line at the end of this file if you are using Ubuntu 16.04
 ```
@@ -150,7 +169,8 @@ Install with dpkg
 ```
 dpkg -i virtualbox-5.2_5.2.8-121009_Ubuntu_xenial_amd64.deb
 ```
-## vpn installation
+vpn installation
+----------------
 ```
 sudo apt install gdebi gksu
 sudo ./via_vpn_bin_file
@@ -169,7 +189,8 @@ Uninstall with dpkg
 ```
 sudo dpkg -r via
 ```
-## youtube-dl installation
+youtube-dl installation
+-----------------------
 ```
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
 sudo chmod a+rx /usr/local/bin/youtube-dl
@@ -182,7 +203,8 @@ sample command
 ```
 youtube-dl -o '%(title)s.%(ext)s' --restrict-filenames -i -x --audio-format mp3 url
 ```
-## Sertifika ayarları
+Certificate Settings
+--------------------
 Sertifika dosyası .pem uzantılı olarak verildiyse .crt uzantılı hale getirilir
 ```
 openssl x509 -in foo.pem -inform PEM -out foo.crt
@@ -198,7 +220,8 @@ sudo dpkg-reconfigure ca-certificates
 ```
 Çıkan ekranda yeni yüklenecek sertifika işaretlenir ve kurulum tamamlanır
 
-## Git ayarları
+Git Settings
+------------
 Yaptığımız değişikliklerde kullanıcı adımız ve eposta adresimiz bu şekilde gözükür.
 ```
 git config --global user.name "username"
@@ -210,7 +233,8 @@ git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=3600'
 ```
 
-## Proxy ayarlari
+Proxy Settings
+--------------
 
 ### Sistem için
 /etc/environment
