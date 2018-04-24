@@ -4,7 +4,7 @@ Basic steps after new OS install
 Contents
 --------
 
-- [Useful Tools](./freshOSteps.md#useful-tools)
+- [Useful Tools](./#useful-tools)
 - [Zsh Installation](#zsh installation)
 	- [Oh-my-zsh](#oh my zsh installation)
 
