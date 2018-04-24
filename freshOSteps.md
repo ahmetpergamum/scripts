@@ -203,7 +203,7 @@ sample command
 ```
 youtube-dl -o '%(title)s.%(ext)s' --restrict-filenames -i -x --audio-format mp3 url
 ```
-Certificate Settings
+certificate settings
 --------------------
 Sertifika dosyası .pem uzantılı olarak verildiyse .crt uzantılı hale getirilir
 ```
@@ -220,7 +220,7 @@ sudo dpkg-reconfigure ca-certificates
 ```
 Çıkan ekranda yeni yüklenecek sertifika işaretlenir ve kurulum tamamlanır
 
-Git Settings
+git settings
 ------------
 Yaptığımız değişikliklerde kullanıcı adımız ve eposta adresimiz bu şekilde gözükür.
 ```
@@ -233,7 +233,7 @@ git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=3600'
 ```
 
-Proxy Settings
+proxy settings
 --------------
 
 ### Sistem için
