@@ -13,7 +13,12 @@ useful tools
 ```
 sudo apt install git
 sudo apt install curl
+sudo apt install python-pip
+sudo apt install python3-pip
 sudo apt install unrar
+sudo -H pip install --upgrade pip
+sudo -H pip install requests
+sudo -H pip install beautifulsoup4
 ```
 
 zsh installation
