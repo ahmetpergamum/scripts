@@ -5,8 +5,8 @@ Contents
 --------
 
 - [Useful Tools](./freshOSteps.md#useful-tools)
-- [Zsh Installation](./freshOSteps.md#zsh installation)
-	- [Oh-my-zsh](./freshOSteps.md#oh my zsh installation)
+- [Zsh Installation](./freshOSteps.md#zsh-installation)
+	- [Oh-my-zsh](./freshOSteps.md#oh-my-zsh-installation)
 
 useful tools
 ------------
