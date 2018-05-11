@@ -9,6 +9,7 @@ Contents
 	- [Oh-My-Zsh-Installation](./freshOSteps.md#oh-my-zsh-installation)
 		- [Powerline-Fonts](./freshOSteps.md#powerline-fonts-installation)
 - [Vim-Plug Installation](./freshOSteps.md#vim-plug-installation)
+- [Vim Plugin Youcompleteme Installation](./freshOSteps.md#vim-plugin-youcompleteme-installation)
 - [Neovim Installation](./freshOSteps.md#neovim-installation)
 - [Chrome Installation](./freshOSteps.md#chrome-installation)
 - [flash plugin for firefox](./freshOSteps.md#flash-plugin-for-firefox)
@@ -31,6 +32,7 @@ sudo apt install unrar
 sudo -H pip install --upgrade pip
 sudo -H pip install requests
 sudo -H pip install beautifulsoup4
+sudo apt install pdftk
 ```
 
 zsh installation
@@ -79,6 +81,35 @@ mv plug.vim ~/.vim/autoload/.
 to source your .vimrc file use ":source" command in vim not in bash
 ```
 :source ~/.vimrc
+```
+
+vim plugin youcompleteme installation
+-------------------------------------
+
+If vim version is newer than  Vim 7.4.1578 with Python 2 or Python 3 support
+Ubuntu 16.04 and later have a Vim that's recent enough.
+For vim youcompleteme install development tools and CMake:
+```
+sudo apt-get install build-essential cmake
+
+```
+Make sure you have Python headers installed
+```
+sudo apt-get install python-dev python3-dev
+```
+Add this line to .vimrc for vim-plug installation
+```
+Plug 'Valloric/YouCompleteMe'
+```
+Compiling YCM with semantic support for C-family languages:
+```
+cd ~/.vim/plugged/YouCompleteMe/
+./install.py --clang-completer
+```
+Compiling YCM without semantic support for C-family languages:
+```
+cd ~/.vim/plugged/YouCompleteMe/
+./install.py
 ```
 
 neovim installation
