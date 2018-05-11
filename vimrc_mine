@@ -1,6 +1,7 @@
 " vimrc conf file for vim and vim-plug
 
 " color schemes require 256-bit gnome-terminal
+"
 set t_Co=256
 
 set nocompatible              " required
@@ -15,6 +16,7 @@ call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 
 " All of your Plugins must be added before the following line
+Plug 'Valloric/YouCompleteMe'
 
 "Code Folding
 Plug 'tmhedberg/SimpylFold'
@@ -31,6 +33,13 @@ Plug 'nvie/vim-flake8'
 Plug 'flazz/vim-colorschemes'
 Plug 'jnurmine/Zenburn'
 Plug 'altercation/vim-colors-solarized'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
+Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+"Plug 'junegunn/rainbow_parentheses.vim'
 "Ctrl-n to enable filesystem
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
@@ -139,11 +148,39 @@ syntax on
 "Check out solarized for GUI mode, and Zenburn for terminal mode
 if has('gui_running')
 	set background=dark
-	colorscheme solarized
+	colorscheme gruvbox
+	"colorscheme solarized
 else
 	"colorscheme distinguished
-	"colorscheme distinguished
-	colorscheme zenburn
+	"colorscheme solarized
+	"colorscheme palenight
+
+	"set background=dark
+
+	"set termguicolors     " enable true colors support
+	"let ayucolor="light"  " for light version of theme
+	"let ayucolor="mirage" " for mirage version of theme
+	"let ayucolor="dark"   " for dark version of theme
+	"colorscheme ayu
+
+	colorscheme gruvbox
+	set background=dark    " Setting dark mode
+	"set background=light   " Setting light mode
+
+	" Unified color scheme (default: dark)
+	" seoul256 (dark):
+	"   Range:   233 (darkest) ~ 239 (lightest)
+	"   Default: 237
+	"let g:seoul256_background = 233
+	"colo seoul256
+	" Light color scheme
+	" seoul256 (light):
+	"   Range:   252 (darkest) ~ 256 (lightest)
+	"   Default: 253
+	"let g:seoul256_background = 254
+	"colo seoul256-light
+
+	"colorscheme zenburn
 endif
 
 " toggle background colour
@@ -180,7 +217,23 @@ nmap <F3> 0i#<Space><Esc>h
 nmap <F4> <End>a<Tab><Tab>#<Space>
 "disable vimtex warnings
 let g:vimtex_compiler_latexmk = {'callback' : 0}
-" enable omnicompletion
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
-imap <C-a> <C-X><C-O>
+
+"enable omnicompletion
+"filetype plugin on
+"set omnifunc=syntaxcomplete#Complete
+"imap <C-a> <C-X><C-O>
+
+"ayu colors indentation
+"IndentLine {{
+"let g:indentLine_char = ''
+"let g:indentLine_first_char = ''
+"let g:indentLine_showFirstIndentLevel = 1
+"let g:indentLine_setColors = 0
+" }}
+
+" Goyo dimensions
+" Both
+"Goyo 120x30
+"Goyo.vim limelight integration
+"autocmd! User GoyoEnter Limelight
+"autocmd! User GoyoLeave Limelight!
