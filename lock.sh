@@ -2,7 +2,13 @@
 # script for locking the screen after certa,n amount of time
 # especially useful for pomodoro-25min intervals
 
-sleep 1500
+sleep 600
+echo "10 minutes"
+sleep 300
+echo "15 minutes"
+sleep 300
+echo "15 minutes"
+sleep 300
 
 # detect the gui type
 GUI=$XDG_CURRENT_DESKTOP
