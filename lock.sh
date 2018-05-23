@@ -7,7 +7,7 @@ echo "10 minutes"
 sleep 300
 echo "15 minutes"
 sleep 300
-echo "15 minutes"
+echo "20 minutes"
 sleep 300
 
 # detect the gui type

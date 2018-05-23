@@ -33,6 +33,7 @@ sudo -H pip install --upgrade pip
 sudo -H pip install requests
 sudo -H pip install beautifulsoup4
 sudo apt install pdftk
+sudo apt install vim-gtk
 ```
 
 zsh installation
