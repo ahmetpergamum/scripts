@@ -1,27 +1,36 @@
 #!/bin/bash
 # not completed!!!
 # install pdftk first before running
-
-
+# run : ./script_name <-e or -o> pdf_file
 # file=$1
-pageN=$(pdftk "$1" dump_data | grep NumberOfPages | awk '{print $2}')
-echo $pageN
+pageN=$(pdftk "$2" dump_data | grep NumberOfPages | awk '{print $2}')
+echo "Number of pages: $pageN"
 
-if [ $((pageN%2)) -eq 0 ]
-then
-	c=$((pageN/2))
-else
-	c=$(((pageN-1)/2))
-fi
-
-for i in $(seq 0 $c)
+# generate odds
+ODDS=""
+for (( i=1; i<=$pageN; i=i+2 ))
 do
-	echo $((i * 2))
+	ODDS=$ODDS$(echo -n "$i,")
 done
+# cut the trailing comma
+ODDS=$(echo "${ODDS::-1}")
 
-# if []
-# then
-# 	lp -P $EVENS $1
-# elif[]
-# 	lp -P $ODDS $1
-# fi
+# generate evens
+EVENS=""
+for (( i=2; i<=$pageN; i=i+2 ))
+do
+	EVENS=$EVENS$(echo -n "$i,")
+done
+# cut the trailing comma
+EVENS=$(echo "${EVENS::-1}")
+# generate even page numbers
+
+if [ "$1" = "-e" ]
+then
+	echo $EVENS
+	lp -P $EVENS $2
+elif [ "$1" = "-o" ]
+then
+	echo $ODDS
+	lp -P $ODDS $2
+fi

@@ -34,6 +34,7 @@ sudo -H pip install requests
 sudo -H pip install beautifulsoup4
 sudo apt install pdftk
 sudo apt install vim-gtk
+sudo apt install ttf-mscorefonts-installer
 ```
 
 zsh installation
