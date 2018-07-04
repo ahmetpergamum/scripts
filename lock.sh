@@ -9,7 +9,7 @@ echo "15 minutes"
 sleep 300
 echo "20 minutes"
 sleep 300
-# sleep 300
+sleep 300
 # echo "30 minutes"
 # sleep 300
 # sleep 300
