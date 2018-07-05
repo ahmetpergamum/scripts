@@ -10,12 +10,12 @@ sleep 300
 echo "20 minutes"
 sleep 300
 sleep 300
-# echo "30 minutes"
-# sleep 300
-# sleep 300
-# echo "40 minutes"
-# sleep 300
-# sleep 300
+echo "30 minutes"
+sleep 300
+sleep 300
+echo "40 minutes"
+sleep 300
+sleep 300
 
 # detect the gui type
 GUI=$XDG_CURRENT_DESKTOP
