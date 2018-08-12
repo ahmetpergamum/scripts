@@ -4,7 +4,7 @@
 
 for i in {1..5}
 do
-	sleep 3
+	sleep 300
 	echo "$((5*$i)) minutes passed.."
 done
 
