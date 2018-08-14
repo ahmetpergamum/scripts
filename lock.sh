@@ -2,6 +2,7 @@
 # script for locking the screen after certa,n amount of time
 # especially useful for pomodoro-25min intervals
 
+date
 
 for i in {1..5}
 do
@@ -23,3 +24,4 @@ fi
 
 sleep 300
 echo "5 minutes rested...start!"
+date
