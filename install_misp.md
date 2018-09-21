@@ -58,19 +58,23 @@ echo "User  (misp) DB Password: $DBPASSWORD_MISP"
 
 # Install a minimal Debian 9 "stretch" server system with the software:
 - OpenSSH server
-```apt install openssh-server
+```
+apt install openssh-server
 ```
 - Web server, apache FTW!
-```apt install apache2
+```
+apt install apache2
 ```
 - This guide assumes a user name of 'misp'
 
 # Install firewall for security
 - UFW is preferred
-```apt install ufw
+```
+apt install ufw
 ```
 - Allow ssh connections first
-```ufw allow ssh
+```
+ufw allow ssh
 ```
 
 # install etckeeper (optional)
