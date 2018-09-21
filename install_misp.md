@@ -56,7 +56,7 @@ echo "User  (misp) DB Password: $DBPASSWORD_MISP"
 1/ Minimal Debian install
 -------------------------
 
-# Install a minimal Debian 9 "stretch" server system with the software:
+### Install a minimal Debian 9 "stretch" server system with the software:
 - OpenSSH server
 ```
 apt install openssh-server
@@ -67,7 +67,7 @@ apt install apache2
 ```
 - This guide assumes a user name of 'misp'
 
-# Install firewall for security
+### Install firewall for security
 - UFW is preferred
 ```
 apt install ufw
@@ -76,16 +76,44 @@ apt install ufw
 ```
 ufw allow ssh
 ```
+- Allow www connections from IP address that you made ssh with
+```
+ufw allow from $(netstat -antlp | grep "ESTABLISHED.*ssh" | awk '{print $5}' | awk -F':' '{print $1}') to any port 80
+```
+- Finally define the default rule and enable
+```
+ufw default deny incoming
+ufw default allow outgoing
+ufw enable
+```
+- View ufw status with numbered and delete any rules with ruke number
+```
+ufw status numbered
+ufw delete <# of rule>
+```
 
-# install etckeeper (optional)
+### install sudo
+- Debian does not come with sudo installed
+
+```
+apt install sudo
+```
+
+### install etckeeper (optional)
+
+```
 su -
 apt install etckeeper
 apt install sudo
 adduser misp sudo
+```
 
-# Make sure your system is up2date:
-sudo apt update
-sudo apt -y dist-upgrade
+### Make sure your system is up2date:
+
+```
+apt update
+apt -y dist-upgrade
+```
 
 # Network Interface Name salvage (optional)
 
@@ -98,17 +126,19 @@ for key in GRUB_CMDLINE_LINUX
 do
     sudo sed -i "s/^\($key\)=.*/\1=\"$(eval echo \${$key})\"/" $DEFAULT_GRUB
 done
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 # install postfix, there will be some questions.
 ```
-sudo apt install -y postfix
+apt install -y postfix
 ```
 # Postfix Configuration: Satellite system
 # change the relay server later with:
-sudo postconf -e 'relayhost = example.com'
-sudo postfix reload
+```
+postconf -e 'relayhost = example.com'
+postfix reload
+```
 
 
 2/ Install LAMP & dependencies
@@ -116,112 +146,155 @@ sudo postfix reload
 Once the system is installed you can perform the following steps:
 
 # Install all the dependencies: (some might already be installed)
-sudo apt install -y \
+```
+apt install -y \
 curl gcc git gnupg-agent make openssl redis-server vim zip libyara-dev python3-yara python3-redis python3-zmq \
-mariadb-client \
-mariadb-server \
+mariadb-client mariadb-server \
 apache2 apache2-doc apache2-utils \
-libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-dev php7.0-json php7.0-xml php7.0-mysql php7.0-readline php-redis php7.0-mbstring php-pear python3 \
-python3-dev python3-pip libpq5 libjpeg-dev libfuzzy-dev ruby asciidoctor \
+libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-dev php7.0-json php7.0-xml php7.0-mysql php7.0-readline php-redis \
+php7.0-mbstring php-pear python3 python3-dev python3-pip libpq5 libjpeg-dev libfuzzy-dev ruby asciidoctor \
 libxml2-dev libxslt1-dev zlib1g-dev python3-setuptools
+```
 
 # Start rng-tools to get more entropy (optional)
 # If you get TPM errors, enable "Security chip" in BIOS (keep secure boot disabled)
-sudo apt install rng-tools
-sudo service rng-tools start
+```
+apt install rng-tools
+service rng-tools start
+```
 
 # Secure the MariaDB installation (especially by setting a strong root password)
-sudo mysql_secure_installation
+```
+mysql_secure_installation
+```
 
 # Enable modules, settings, and default of SSL in Apache
-sudo a2dismod status
-sudo a2enmod ssl rewrite
-sudo a2dissite 000-default
-sudo a2ensite default-ssl
+```
+a2dismod status
+a2enmod ssl rewrite
+a2dissite 000-default
+a2ensite default-ssl
+```
 
 # Install PHP external dependencies
-sudo pear channel-update pear.php.net
-sudo pear install Crypt_GPG
+```
+pear channel-update pear.php.net
+pear install Crypt_GPG
+```
 
 # Switch to python3 by default (optional)
 
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
+```
+update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
+```
+- To flip between the 2 pythons
 
-To flip between the 2 pythons: sudo update-alternatives --config python
+```
+	sudo update-alternatives --config python
+```
 
 # Apply all changes
-sudo systemctl restart apache2
+```
+systemctl restart apache2
+```
 
 
 3/ MISP code
 ------------
 # Download MISP using git in the /var/www/ directory.
-sudo mkdir $PATH_TO_MISP
-sudo chown www-data:www-data $PATH_TO_MISP
+```
+mkdir $PATH_TO_MISP
+chown www-data:www-data $PATH_TO_MISP
 cd $PATH_TO_MISP
 sudo -u www-data git clone https://github.com/MISP/MISP.git $PATH_TO_MISP
+```
 
 # Make git ignore filesystem permission differences
+```
 sudo -u www-data git config core.filemode false
+```
 
+```
 cd $PATH_TO_MISP/app/files/scripts
 sudo -u www-data git clone https://github.com/CybOXProject/python-cybox.git
 sudo -u www-data git clone https://github.com/STIXProject/python-stix.git
 cd $PATH_TO_MISP/app/files/scripts/python-cybox
-sudo pip3 install .
+pip3 install .
 cd $PATH_TO_MISP/app/files/scripts/python-stix
-sudo pip3 install .
+pip3 install .
+```
 
 # install mixbox to accomodate the new STIX dependencies:
+```
 cd $PATH_TO_MISP/app/files/scripts/
 sudo -u www-data git clone https://github.com/CybOXProject/mixbox.git
 cd $PATH_TO_MISP/app/files/scripts/mixbox
-sudo pip3 install .
+pip3 install .
+```
 
+```
 cd $PATH_TO_MISP
 sudo -u www-data git submodule update --init --recursive
+```
 # Make git ignore filesystem permission differences for submodules
+```
 sudo -u www-data git submodule foreach --recursive git config core.filemode false
+```
 
 # install PyMISP
+```
 cd $PATH_TO_MISP/PyMISP
-sudo pip3 install .
+pip3 install .
+```
+########################################## debian
 
 4/ CakePHP
 -----------
 # CakePHP is included as a submodule of MISP.
 
 # Install CakeResque along with its dependencies if you intend to use the built in background jobs:
+```
 cd $PATH_TO_MISP/app
+```
 # Make composer cache happy
-sudo mkdir /var/www/.composer ; sudo chown www-data:www-data /var/www/.composer
+```
+mkdir /var/www/.composer ; sudo chown www-data:www-data /var/www/.composer
 sudo -u www-data php composer.phar require kamisama/cake-resque:4.1.2
 sudo -u www-data php composer.phar config vendor-dir Vendor
 sudo -u www-data php composer.phar install
+```
 
 # Enable CakeResque with php-redis
-sudo phpenmod redis
+```
+phpenmod redis
+```
 
 # To use the scheduler worker for scheduled tasks, do the following:
+```
 sudo -u www-data cp -fa $PATH_TO_MISP/INSTALL/setup/config.php $PATH_TO_MISP/app/Plugin/CakeResque/Config/config.php
+```
 
 
 5/ Set the permissions
 ----------------------
 
 # Check if the permissions are set correctly using the following commands:
-sudo chown -R www-data:www-data $PATH_TO_MISP
-sudo chmod -R 750 $PATH_TO_MISP
-sudo chmod -R g+ws $PATH_TO_MISP/app/tmp
-sudo chmod -R g+ws $PATH_TO_MISP/app/files
-sudo chmod -R g+ws $PATH_TO_MISP/app/files/scripts/tmp
+```
+chown -R www-data:www-data $PATH_TO_MISP
+chmod -R 750 $PATH_TO_MISP
+chmod -R g+ws $PATH_TO_MISP/app/tmp
+chmod -R g+ws $PATH_TO_MISP/app/files
+chmod -R g+ws $PATH_TO_MISP/app/files/scripts/tmp
+```
 
 
 6/ Create a database and user
 -----------------------------
 # Enter the mysql shell
-sudo mysql -u root -p
+```
+mysql -u root -p
+```
 
 ```
 MariaDB [(none)]> create database misp;
@@ -231,36 +304,46 @@ MariaDB [(none)]> flush privileges;
 MariaDB [(none)]> exit
 ```
 
-copy/paste:
+- Copy/paste:
 ```
-sudo mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "create database $DBNAME;"
-sudo mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "grant usage on *.* to $DBNAME@localhost identified by '$DBPASSWORD_MISP';"
-sudo mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "grant all privileges on $DBNAME.* to '$DBUSER_MISP'@'localhost';"
-sudo mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "flush privileges;"
+mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "create database $DBNAME;"
+mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "grant usage on *.* to $DBNAME@localhost identified by '$DBPASSWORD_MISP';"
+mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "grant all privileges on $DBNAME.* to '$DBUSER_MISP'@'localhost';"
+mysql -u $DBUSER_ADMIN -p$DBPASSWORD_ADMIN -e "flush privileges;"
 ```
 
 # Import the empty MISP database from MYSQL.sql
+```
 sudo -u www-data cat $PATH_TO_MISP/INSTALL/MYSQL.sql | mysql -u $DBUSER_MISP -p$DBPASSWORD_MISP $DBNAME
+```
 
 7/ Apache configuration
 -----------------------
 # Now configure your Apache webserver with the DocumentRoot $PATH_TO_MISP/app/webroot/
 
 # If the apache version is 2.4:
-sudo cp $PATH_TO_MISP/INSTALL/apache.24.misp.ssl /etc/apache2/sites-available/misp-ssl.conf
+```
+apache2 -v
+cp $PATH_TO_MISP/INSTALL/apache.24.misp.ssl /etc/apache2/sites-available/misp-ssl.conf
+```
 
 # Be aware that the configuration files for apache 2.4 and up have changed.
 # The configuration file has to have the .conf extension in the sites-available directory
 # For more information, visit http://httpd.apache.org/docs/2.4/upgrading.html
 
+########################################## misp
+
 # If a valid SSL certificate is not already created for the server, create a self-signed certificate:
-sudo openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
+```
+openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
 -subj "/C=${OPENSSL_C}/ST=${OPENSSL_ST}/L=${OPENSSL_L}/O=${OPENSSL_O}/OU=${OPENSSL_OU}/CN=${OPENSSL_CN}/emailAddress=${OPENSSL_EMAILADDRESS}" \
 -keyout /etc/ssl/private/misp.local.key -out /etc/ssl/private/misp.local.crt
+```
 
 # Otherwise, copy the SSLCertificateFile, SSLCertificateKeyFile, and SSLCertificateChainFile to /etc/ssl/private/. (Modify path and config to fit your environment)
 
 ============================================= Begin sample working SSL config for MISP
+```
 <VirtualHost <IP, FQDN, or *>:80>
         ServerAdmin admin@<your.FQDN.here>
         ServerName <your.FQDN.here>
@@ -294,42 +377,54 @@ sudo openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
         CustomLog /var/log/apache2/misp.local_access.log combined
         ServerSignature Off
 </VirtualHost>
+```
 ============================================= End sample working SSL config for MISP
 
 # activate new vhost
-sudo a2dissite default-ssl
-sudo a2ensite misp-ssl
+```
+a2dissite default-ssl
+a2ensite misp-ssl
+```
 
 # Recommended: Change some PHP settings in /etc/php/7.0/apache2/php.ini
 # max_execution_time = 300
 # memory_limit = 512M
 # upload_max_filesize = 50M
 # post_max_size = 50M
+```
 for key in upload_max_filesize post_max_size max_execution_time max_input_time memory_limit
 do
     sudo sed -i "s/^\($key\).*/\1 = $(eval echo \${$key})/" $PHP_INI
 done
+```
 
 # Restart apache
-sudo systemctl restart apache2
+```
+systemctl restart apache2
+```
 
 8/ Log rotation
 ---------------
 # MISP saves the stdout and stderr of its workers in $PATH_TO_MISP/app/tmp/logs
 # To rotate these logs install the supplied logrotate script:
 
-sudo cp $PATH_TO_MISP/INSTALL/misp.logrotate /etc/logrotate.d/misp
+```
+cp $PATH_TO_MISP/INSTALL/misp.logrotate /etc/logrotate.d/misp
 chmod 0640 /etc/logrotate.d/misp
+```
 
 9/ MISP configuration
 ---------------------
 # There are 4 sample configuration files in $PATH_TO_MISP/app/Config that need to be copied
+```
 sudo -u www-data cp -a $PATH_TO_MISP/app/Config/bootstrap.default.php $PATH_TO_MISP/app/Config/bootstrap.php
 sudo -u www-data cp -a $PATH_TO_MISP/app/Config/database.default.php $PATH_TO_MISP/app/Config/database.php
 sudo -u www-data cp -a $PATH_TO_MISP/app/Config/core.default.php $PATH_TO_MISP/app/Config/core.php
 sudo -u www-data cp -a $PATH_TO_MISP/app/Config/config.default.php $PATH_TO_MISP/app/Config/config.php
+```
 
 
+```
 echo "<?php
 class DATABASE_CONFIG {
         public \$default = array(
@@ -347,25 +442,35 @@ class DATABASE_CONFIG {
         );
 }" | sudo -u www-data tee $PATH_TO_MISP/app/Config/database.php
 
+```
 # and make sure the file permissions are still OK
-sudo chown -R www-data:www-data $PATH_TO_MISP/app/Config
-sudo chmod -R 750 $PATH_TO_MISP/app/Config
+```
+chown -R www-data:www-data $PATH_TO_MISP/app/Config
+chmod -R 750 $PATH_TO_MISP/app/Config
+```
 # Set some MISP directives with the command line tool
-sudo $CAKE Live $MISP_LIVE
+```
+$CAKE Live $MISP_LIVE
+```
 
 # Change base url
-sudo $CAKE Baseurl $MISP_BASEURL
+```
+$CAKE Baseurl $MISP_BASEURL
+```
 
 # example: 'baseurl' => 'https://<your.FQDN.here>',
 # alternatively, you can leave this field empty if you would like to use relative pathing in MISP
 # 'baseurl' => '',
 
 # and make sure the file permissions are still OK
-sudo chown -R www-data:www-data $PATH_TO_MISP/app/Config
-sudo chmod -R 750 $PATH_TO_MISP/app/Config
+```
+chown -R www-data:www-data $PATH_TO_MISP/app/Config
+chmod -R 750 $PATH_TO_MISP/app/Config
+```
 
 # Generate a GPG encryption key.
 
+```
 cat >/tmp/gen-key-script <<EOF
     %echo Generating a default key
     Key-Type: default
@@ -380,144 +485,155 @@ cat >/tmp/gen-key-script <<EOF
     %commit
     %echo done
 EOF
+```
 
+```
 sudo -u www-data gpg --homedir $PATH_TO_MISP/.gnupg --batch --gen-key /tmp/gen-key-script
+```
 # The email address should match the one set in the config.php / set in the configuration menu in the administration menu configuration file
 
 # And export the public key to the webroot
+```
 sudo -u www-data sh -c "gpg --homedir $PATH_TO_MISP/.gnupg --export --armor $GPG_EMAIL_ADDRESS" | sudo -u www-data tee $PATH_TO_MISP/app/webroot/gpg.asc
+```
 
 # To make the background workers start on boot
-sudo chmod +x $PATH_TO_MISP/app/Console/worker/start.sh
+```
+chmod +x $PATH_TO_MISP/app/Console/worker/start.sh
+```
+```
 if [ ! -e /etc/rc.local ]
 then
     echo '#!/bin/sh -e' | sudo tee -a /etc/rc.local
     echo 'exit 0' | sudo tee -a /etc/rc.local
     sudo chmod u+x /etc/rc.local
 fi
+```
 
 # Initialize user and fetch Auth Key
+```
 sudo -E $CAKE userInit -q
 AUTH_KEY=$(mysql -u $DBUSER_MISP -p$DBPASSWORD_MISP misp -e "SELECT authkey FROM users;" | tail -1)
+```
 
 # Setup some more MISP default via cake CLI
 
 # Tune global time outs
-sudo $CAKE Admin setSetting "Session.autoRegenerate" 0
-sudo $CAKE Admin setSetting "Session.timeout" 600
-sudo $CAKE Admin setSetting "Session.cookie_timeout" 3600
+$CAKE Admin setSetting "Session.autoRegenerate" 0
+$CAKE Admin setSetting "Session.timeout" 600
+$CAKE Admin setSetting "Session.cookie_timeout" 3600
 
 # Enable GnuPG
-sudo $CAKE Admin setSetting "GnuPG.email" "admin@admin.test"
-sudo $CAKE Admin setSetting "GnuPG.homedir" "$PATH_TO_MISP/.gnupg"
-sudo $CAKE Admin setSetting "GnuPG.password" "Password1234"
+$CAKE Admin setSetting "GnuPG.email" "admin@admin.test"
+$CAKE Admin setSetting "GnuPG.homedir" "$PATH_TO_MISP/.gnupg"
+$CAKE Admin setSetting "GnuPG.password" "Password1234"
 
 # Enable Enrichment set better timeouts
-sudo $CAKE Admin setSetting "Plugin.Enrichment_services_enable" true
-sudo $CAKE Admin setSetting "Plugin.Enrichment_hover_enable" true
-sudo $CAKE Admin setSetting "Plugin.Enrichment_timeout" 300
-sudo $CAKE Admin setSetting "Plugin.Enrichment_hover_timeout" 150
-sudo $CAKE Admin setSetting "Plugin.Enrichment_cve_enabled" true
-sudo $CAKE Admin setSetting "Plugin.Enrichment_dns_enabled" true
-sudo $CAKE Admin setSetting "Plugin.Enrichment_services_url" "http://127.0.0.1"
-sudo $CAKE Admin setSetting "Plugin.Enrichment_services_port" 6666
+$CAKE Admin setSetting "Plugin.Enrichment_services_enable" true
+$CAKE Admin setSetting "Plugin.Enrichment_hover_enable" true
+$CAKE Admin setSetting "Plugin.Enrichment_timeout" 300
+$CAKE Admin setSetting "Plugin.Enrichment_hover_timeout" 150
+$CAKE Admin setSetting "Plugin.Enrichment_cve_enabled" true
+$CAKE Admin setSetting "Plugin.Enrichment_dns_enabled" true
+$CAKE Admin setSetting "Plugin.Enrichment_services_url" "http://127.0.0.1"
+$CAKE Admin setSetting "Plugin.Enrichment_services_port" 6666
 
 # Enable Import modules set better timout
-sudo $CAKE Admin setSetting "Plugin.Import_services_enable" true
-sudo $CAKE Admin setSetting "Plugin.Import_services_url" "http://127.0.0.1"
-sudo $CAKE Admin setSetting "Plugin.Import_services_port" 6666
-sudo $CAKE Admin setSetting "Plugin.Import_timeout" 300
-sudo $CAKE Admin setSetting "Plugin.Import_ocr_enabled" true
-sudo $CAKE Admin setSetting "Plugin.Import_csvimport_enabled" true
+$CAKE Admin setSetting "Plugin.Import_services_enable" true
+$CAKE Admin setSetting "Plugin.Import_services_url" "http://127.0.0.1"
+$CAKE Admin setSetting "Plugin.Import_services_port" 6666
+$CAKE Admin setSetting "Plugin.Import_timeout" 300
+$CAKE Admin setSetting "Plugin.Import_ocr_enabled" true
+$CAKE Admin setSetting "Plugin.Import_csvimport_enabled" true
 
 # Enable Export modules set better timout
-sudo $CAKE Admin setSetting "Plugin.Export_services_enable" true
-sudo $CAKE Admin setSetting "Plugin.Export_services_url" "http://127.0.0.1"
-sudo $CAKE Admin setSetting "Plugin.Export_services_port" 6666
-sudo $CAKE Admin setSetting "Plugin.Export_timeout" 300
-sudo $CAKE Admin setSetting "Plugin.Export_pdfexport_enabled" true
+$CAKE Admin setSetting "Plugin.Export_services_enable" true
+$CAKE Admin setSetting "Plugin.Export_services_url" "http://127.0.0.1"
+$CAKE Admin setSetting "Plugin.Export_services_port" 6666
+$CAKE Admin setSetting "Plugin.Export_timeout" 300
+$CAKE Admin setSetting "Plugin.Export_pdfexport_enabled" true
 
 # Enable installer org and tune some configurables
-sudo $CAKE Admin setSetting "MISP.host_org_id" 1
-sudo $CAKE Admin setSetting "MISP.email" "info@admin.test"
-sudo $CAKE Admin setSetting "MISP.disable_emailing" true
-sudo $CAKE Admin setSetting "MISP.contact" "info@admin.test"
-sudo $CAKE Admin setSetting "MISP.disablerestalert" true
-sudo $CAKE Admin setSetting "MISP.showCorrelationsOnIndex" true
+$CAKE Admin setSetting "MISP.host_org_id" 1
+$CAKE Admin setSetting "MISP.email" "info@admin.test"
+$CAKE Admin setSetting "MISP.disable_emailing" true
+$CAKE Admin setSetting "MISP.contact" "info@admin.test"
+$CAKE Admin setSetting "MISP.disablerestalert" true
+$CAKE Admin setSetting "MISP.showCorrelationsOnIndex" true
 
 # Provisional Cortex tunes
-sudo $CAKE Admin setSetting "Plugin.Cortex_services_enable" false
-sudo $CAKE Admin setSetting "Plugin.Cortex_services_url" "http://127.0.0.1"
-sudo $CAKE Admin setSetting "Plugin.Cortex_services_port" 9000
-sudo $CAKE Admin setSetting "Plugin.Cortex_timeout" 120
-sudo $CAKE Admin setSetting "Plugin.Cortex_services_url" "http://127.0.0.1"
-sudo $CAKE Admin setSetting "Plugin.Cortex_services_port" 9000
-sudo $CAKE Admin setSetting "Plugin.Cortex_services_timeout" 120
-sudo $CAKE Admin setSetting "Plugin.Cortex_services_authkey" ""
-sudo $CAKE Admin setSetting "Plugin.Cortex_ssl_verify_peer" false
-sudo $CAKE Admin setSetting "Plugin.Cortex_ssl_verify_host" false
-sudo $CAKE Admin setSetting "Plugin.Cortex_ssl_allow_self_signed" true
+$CAKE Admin setSetting "Plugin.Cortex_services_enable" false
+$CAKE Admin setSetting "Plugin.Cortex_services_url" "http://127.0.0.1"
+$CAKE Admin setSetting "Plugin.Cortex_services_port" 9000
+$CAKE Admin setSetting "Plugin.Cortex_timeout" 120
+$CAKE Admin setSetting "Plugin.Cortex_services_url" "http://127.0.0.1"
+$CAKE Admin setSetting "Plugin.Cortex_services_port" 9000
+$CAKE Admin setSetting "Plugin.Cortex_services_timeout" 120
+$CAKE Admin setSetting "Plugin.Cortex_services_authkey" ""
+$CAKE Admin setSetting "Plugin.Cortex_ssl_verify_peer" false
+$CAKE Admin setSetting "Plugin.Cortex_ssl_verify_host" false
+$CAKE Admin setSetting "Plugin.Cortex_ssl_allow_self_signed" true
 
 # Various plugin sightings settings
-sudo $CAKE Admin setSetting "Plugin.Sightings_policy" 0
-sudo $CAKE Admin setSetting "Plugin.Sightings_anonymise" false
-sudo $CAKE Admin setSetting "Plugin.Sightings_range" 365
+$CAKE Admin setSetting "Plugin.Sightings_policy" 0
+$CAKE Admin setSetting "Plugin.Sightings_anonymise" false
+$CAKE Admin setSetting "Plugin.Sightings_range" 365
 
 # Plugin CustomAuth tuneable
-sudo $CAKE Admin setSetting "Plugin.CustomAuth_disable_logout" false
+$CAKE Admin setSetting "Plugin.CustomAuth_disable_logout" false
 
 # RPZ Plugin settings
 
-sudo $CAKE Admin setSetting "Plugin.RPZ_policy" "DROP"
-sudo $CAKE Admin setSetting "Plugin.RPZ_walled_garden" "127.0.0.1"
-sudo $CAKE Admin setSetting "Plugin.RPZ_serial" "\$date00"
-sudo $CAKE Admin setSetting "Plugin.RPZ_refresh" "2h"
-sudo $CAKE Admin setSetting "Plugin.RPZ_retry" "30m"
-sudo $CAKE Admin setSetting "Plugin.RPZ_expiry" "30d"
-sudo $CAKE Admin setSetting "Plugin.RPZ_minimum_ttl" "1h"
-sudo $CAKE Admin setSetting "Plugin.RPZ_ttl" "1w"
-sudo $CAKE Admin setSetting "Plugin.RPZ_ns" "localhost."
-sudo $CAKE Admin setSetting "Plugin.RPZ_ns_alt" ""
-sudo $CAKE Admin setSetting "Plugin.RPZ_email" "root.localhost"
+$CAKE Admin setSetting "Plugin.RPZ_policy" "DROP"
+$CAKE Admin setSetting "Plugin.RPZ_walled_garden" "127.0.0.1"
+$CAKE Admin setSetting "Plugin.RPZ_serial" "\$date00"
+$CAKE Admin setSetting "Plugin.RPZ_refresh" "2h"
+$CAKE Admin setSetting "Plugin.RPZ_retry" "30m"
+$CAKE Admin setSetting "Plugin.RPZ_expiry" "30d"
+$CAKE Admin setSetting "Plugin.RPZ_minimum_ttl" "1h"
+$CAKE Admin setSetting "Plugin.RPZ_ttl" "1w"
+$CAKE Admin setSetting "Plugin.RPZ_ns" "localhost."
+$CAKE Admin setSetting "Plugin.RPZ_ns_alt" ""
+$CAKE Admin setSetting "Plugin.RPZ_email" "root.localhost"
 
 # Force defaults to make MISP Server Settings less RED
-sudo $CAKE Admin setSetting "MISP.language" "eng"
-sudo $CAKE Admin setSetting "MISP.proposals_block_attributes" false
+$CAKE Admin setSetting "MISP.language" "eng"
+$CAKE Admin setSetting "MISP.proposals_block_attributes" false
 
 ## Redis block
-sudo $CAKE Admin setSetting "MISP.redis_host" "127.0.0.1"
-sudo $CAKE Admin setSetting "MISP.redis_port" 6379
-sudo $CAKE Admin setSetting "MISP.redis_database" 13
-sudo $CAKE Admin setSetting "MISP.redis_password" ""
+$CAKE Admin setSetting "MISP.redis_host" "127.0.0.1"
+$CAKE Admin setSetting "MISP.redis_port" 6379
+$CAKE Admin setSetting "MISP.redis_database" 13
+$CAKE Admin setSetting "MISP.redis_password" ""
 
 # Force defaults to make MISP Server Settings less YELLOW
-sudo $CAKE Admin setSetting "MISP.ssdeep_correlation_threshold" 40
-sudo $CAKE Admin setSetting "MISP.extended_alert_subject" false
-sudo $CAKE Admin setSetting "MISP.default_event_threat_level" 4
-sudo $CAKE Admin setSetting "MISP.newUserText" "Dear new MISP user,\\n\\nWe would hereby like to welcome you to the \$org MISP community.\\n\\n Use the credentials below to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nPassword: \$password\\n\\nIf you have any questions, don't hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team"
-sudo $CAKE Admin setSetting "MISP.passwordResetText" "Dear MISP user,\\n\\nA password reset has been triggered for your account. Use the below provided temporary password to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nYour temporary password: \$password\\n\\nIf you have any questions, don't hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team"
-sudo $CAKE Admin setSetting "MISP.enableEventBlacklisting" true
-sudo $CAKE Admin setSetting "MISP.enableOrgBlacklisting" true
-sudo $CAKE Admin setSetting "MISP.log_client_ip" false
-sudo $CAKE Admin setSetting "MISP.log_auth" false
-sudo $CAKE Admin setSetting "MISP.disableUserSelfManagement" false
-sudo $CAKE Admin setSetting "MISP.block_event_alert" false
-sudo $CAKE Admin setSetting "MISP.block_event_alert_tag" "no-alerts=\"true\""
-sudo $CAKE Admin setSetting "MISP.block_old_event_alert" false
-sudo $CAKE Admin setSetting "MISP.block_old_event_alert_age" ""
-sudo $CAKE Admin setSetting "MISP.incoming_tags_disabled_by_default" false
-sudo $CAKE Admin setSetting "MISP.footermidleft" "This is an initial install"
-sudo $CAKE Admin setSetting "MISP.footermidright" "Please configure and harden accordingly"
-sudo $CAKE Admin setSetting "MISP.welcome_text_top" "Initial Install, please configure"
-sudo $CAKE Admin setSetting "MISP.welcome_text_bottom" "Welcome to MISP, change this message in MISP Settings"
+$CAKE Admin setSetting "MISP.ssdeep_correlation_threshold" 40
+$CAKE Admin setSetting "MISP.extended_alert_subject" false
+$CAKE Admin setSetting "MISP.default_event_threat_level" 4
+$CAKE Admin setSetting "MISP.newUserText" "Dear new MISP user,\\n\\nWe would hereby like to welcome you to the \$org MISP community.\\n\\n Use the credentials below to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nPassword: \$password\\n\\nIf you have any questions, don't hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team"
+$CAKE Admin setSetting "MISP.passwordResetText" "Dear MISP user,\\n\\nA password reset has been triggered for your account. Use the below provided temporary password to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nYour temporary password: \$password\\n\\nIf you have any questions, don't hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team"
+$CAKE Admin setSetting "MISP.enableEventBlacklisting" true
+$CAKE Admin setSetting "MISP.enableOrgBlacklisting" true
+$CAKE Admin setSetting "MISP.log_client_ip" false
+$CAKE Admin setSetting "MISP.log_auth" false
+$CAKE Admin setSetting "MISP.disableUserSelfManagement" false
+$CAKE Admin setSetting "MISP.block_event_alert" false
+$CAKE Admin setSetting "MISP.block_event_alert_tag" "no-alerts=\"true\""
+$CAKE Admin setSetting "MISP.block_old_event_alert" false
+$CAKE Admin setSetting "MISP.block_old_event_alert_age" ""
+$CAKE Admin setSetting "MISP.incoming_tags_disabled_by_default" false
+$CAKE Admin setSetting "MISP.footermidleft" "This is an initial install"
+$CAKE Admin setSetting "MISP.footermidright" "Please configure and harden accordingly"
+$CAKE Admin setSetting "MISP.welcome_text_top" "Initial Install, please configure"
+$CAKE Admin setSetting "MISP.welcome_text_bottom" "Welcome to MISP, change this message in MISP Settings"
 
 # Force defaults to make MISP Server Settings less GREEN
-sudo $CAKE Admin setSetting "Security.password_policy_length" 12
-sudo $CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*$|.{16,}/'
+$CAKE Admin setSetting "Security.password_policy_length" 12
+$CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*$|.{16,}/'
 # Tune global time outs
-sudo $CAKE Admin setSetting "Session.autoRegenerate" 0
-sudo $CAKE Admin setSetting "Session.timeout" 600
-sudo $CAKE Admin setSetting "Session.cookie_timeout" 3600
+$CAKE Admin setSetting "Session.autoRegenerate" 0
+$CAKE Admin setSetting "Session.timeout" 600
+$CAKE Admin setSetting "Session.cookie_timeout" 3600
 
 # Now log in using the webinterface:
 # The default user/pass = admin@admin.test/admin
@@ -529,16 +645,16 @@ sudo $CAKE Admin setSetting "Session.cookie_timeout" 3600
 # Don't forget to change the email, password and authentication key after installation.
 
 # Set MISP Live
-sudo $CAKE Live $MISP_LIVE
+$CAKE Live $MISP_LIVE
 
 # Update the galaxies…
-sudo $CAKE Admin updateGalaxies
+$CAKE Admin updateGalaxies
 
 # Updating the taxonomies…
-sudo $CAKE Admin updateTaxonomies
+$CAKE Admin updateTaxonomies
 
 # Updating the warning lists…
-sudo $CAKE Admin updateWarningLists
+$CAKE Admin updateWarningLists
 
 # Updating the notice lists…
 ## sudo $CAKE Admin updateNoticeLists
@@ -549,35 +665,35 @@ curl --header "Authorization: $AUTH_KEY" --header "Accept: application/json" --h
 curl --header "Authorization: $AUTH_KEY" --header "Accept: application/json" --header "Content-Type: application/json" -k -X POST https://127.0.0.1/objectTemplates/update
 
 # Add the following lines before the last line (exit 0). Make sure that you replace www-data with your apache user:
-sudo sed -i -e '$i \echo never > /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
-sudo sed -i -e '$i \echo 1024 > /proc/sys/net/core/somaxconn\n' /etc/rc.local
-sudo sed -i -e '$i \sysctl vm.overcommit_memory=1\n' /etc/rc.local
-sudo sed -i -e '$i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n' /etc/rc.local
-sudo sed -i -e '$i \sudo -u www-data misp-modules -l 0.0.0.0 -s &\n' /etc/rc.local
+sed -i -e '$i \echo never > /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
+sed -i -e '$i \echo 1024 > /proc/sys/net/core/somaxconn\n' /etc/rc.local
+sed -i -e '$i \sysctl vm.overcommit_memory=1\n' /etc/rc.local
+sed -i -e '$i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n' /etc/rc.local
+sed -i -e '$i \sudo -u www-data misp-modules -l 0.0.0.0 -s &\n' /etc/rc.local
 
 # Start the workers
 sudo -u www-data bash $PATH_TO_MISP/app/Console/worker/start.sh
 
 cd /usr/local/src/
-sudo git clone https://github.com/MISP/misp-modules.git
+git clone https://github.com/MISP/misp-modules.git
 cd misp-modules
 # pip3 install
-sudo pip3 install -I -r REQUIREMENTS
-sudo pip3 install -I .
-sudo pip3 install maec lief python-magic wand yara
-sudo pip3 install git+https://github.com/kbandla/pydeep.git
+pip3 install -I -r REQUIREMENTS
+pip3 install -I .
+pip3 install maec lief python-magic wand yara
+pip3 install git+https://github.com/kbandla/pydeep.git
 # install STIX2.0 library to support STIX 2.0 export:
-sudo pip3 install stix2
-sudo gem install pygments.rb
-sudo gem install asciidoctor-pdf --pre
+pip3 install stix2
+gem install pygments.rb
+gem install asciidoctor-pdf --pre
 
 # Once done, have a look at the diagnostics
 
 # If any of the directories that MISP uses to store files is not writeable to the apache user, change the permissions
 # you can do this by running the following commands:
 
-sudo chmod -R 750 $PATH_TO_MISP/<directory path with an indicated issue>
-sudo chown -R www-data:www-data $PATH_TO_MISP/<directory path with an indicated issue>
+chmod -R 750 $PATH_TO_MISP/<directory path with an indicated issue>
+chown -R www-data:www-data $PATH_TO_MISP/<directory path with an indicated issue>
 
 # Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt's paragraphs dealing with these two items
 
@@ -607,25 +723,25 @@ Optional features
 # MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands
 
 # ZeroMQ depends on the Python client for Redis
-sudo pip3 install redis
+pip3 install redis
 
 ## install pyzmq
-sudo pip3 install pyzmq
+pip3 install pyzmq
 
 
 MISP Dashboard
 --------------
 
 cd /var/www
-sudo mkdir misp-dashboard
-sudo chown www-data:www-data misp-dashboard
+mkdir misp-dashboard
+chown www-data:www-data misp-dashboard
 sudo -u www-data git clone https://github.com/MISP/misp-dashboard.git
 cd misp-dashboard
-sudo /var/www/misp-dashboard/install_dependencies.sh
-sudo sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
-sudo sed -i -e '$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
-sudo sed -i '/Listen 80/a Listen 0.0.0.0:8001' /etc/apache2/ports.conf
-sudo apt install libapache2-mod-wsgi-py3
+/var/www/misp-dashboard/install_dependencies.sh
+sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
+sed -i -e '$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
+sed -i '/Listen 80/a Listen 0.0.0.0:8001' /etc/apache2/ports.conf
+apt install libapache2-mod-wsgi-py3
 
 echo "<VirtualHost *:8001>
     ServerAdmin admin@misp.local
@@ -665,39 +781,39 @@ echo "<VirtualHost *:8001>
     ServerSignature Off
 </VirtualHost>" | sudo tee /etc/apache2/sites-available/misp-dashboard.conf
 
-sudo a2ensite misp-dashboard
+a2ensite misp-dashboard
 
 
 # Enable ZeroMQ for misp-dashboard
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_event_notifications_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_object_notifications_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_object_reference_notifications_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_attribute_notifications_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_sighting_notifications_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_user_notifications_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_organisation_notifications_enable" true
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_port" 50000
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_redis_host" "localhost"
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_redis_port" 6379
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_redis_database" 1
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_redis_namespace" "mispq"
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_include_attachments" false
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_tag_notifications_enable" false
-sudo $CAKE Admin setSetting "Plugin.ZeroMQ_audit_notifications_enable" false
+$CAKE Admin setSetting "Plugin.ZeroMQ_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_event_notifications_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_object_notifications_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_object_reference_notifications_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_attribute_notifications_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_sighting_notifications_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_user_notifications_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_organisation_notifications_enable" true
+$CAKE Admin setSetting "Plugin.ZeroMQ_port" 50000
+$CAKE Admin setSetting "Plugin.ZeroMQ_redis_host" "localhost"
+$CAKE Admin setSetting "Plugin.ZeroMQ_redis_port" 6379
+$CAKE Admin setSetting "Plugin.ZeroMQ_redis_database" 1
+$CAKE Admin setSetting "Plugin.ZeroMQ_redis_namespace" "mispq"
+$CAKE Admin setSetting "Plugin.ZeroMQ_include_attachments" false
+$CAKE Admin setSetting "Plugin.ZeroMQ_tag_notifications_enable" false
+$CAKE Admin setSetting "Plugin.ZeroMQ_audit_notifications_enable" false
 
 
 Install viper framework
 -----------------------
 
 cd /usr/local/src/
-sudo apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2
-sudo pip3 install SQLAlchemy PrettyTable python-magic
-sudo git clone https://github.com/viper-framework/viper.git
+apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2
+pip3 install SQLAlchemy PrettyTable python-magic
+git clone https://github.com/viper-framework/viper.git
 cd viper
-sudo git submodule update --init --recursive
-sudo pip3 install -r requirements.txt
-sudo pip3 uninstall yara -y
+git submodule update --init --recursive
+pip3 install -r requirements.txt
+pip3 uninstall yara -y
 /usr/local/src/viper/viper-cli -h
 /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &
 echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper"' |sudo tee /etc/environment
@@ -711,20 +827,20 @@ Install mail to misp
 --------------------
 
 cd /usr/local/src/
-sudo apt-get install -y cmake
-sudo git clone https://github.com/MISP/mail_to_misp.git
-sudo git clone git://github.com/stricaud/faup.git
+apt-get install -y cmake
+git clone https://github.com/MISP/mail_to_misp.git
+git clone git://github.com/stricaud/faup.git
 cd faup
-sudo mkdir -p build
+mkdir -p build
 cd build
-sudo cmake .. && sudo make
-sudo make install
-sudo ldconfig
+cmake .. && sudo make
+make install
+ldconfig
 cd ../../
 cd mail_to_misp
-sudo pip3 install -r requirements.txt
-sudo cp mail_to_misp_config.py-example mail_to_misp_config.py
+pip3 install -r requirements.txt
+cp mail_to_misp_config.py-example mail_to_misp_config.py
 
-sudo sed -i "s/^misp_url\ =\ 'YOUR_MISP_URL'/misp_url\ =\ 'http:\/\/localhost'/g" /usr/local/src/mail_to_misp/mail_to_misp_config.py
-sudo sed -i "s/^misp_key\ =\ 'YOUR_KEY_HERE'/misp_key\ =\ '$AUTH_KEY'/g" /usr/local/src/mail_to_misp/mail_to_misp_config.py
+sed -i "s/^misp_url\ =\ 'YOUR_MISP_URL'/misp_url\ =\ 'http:\/\/localhost'/g" /usr/local/src/mail_to_misp/mail_to_misp_config.py
+sed -i "s/^misp_key\ =\ 'YOUR_KEY_HERE'/misp_key\ =\ '$AUTH_KEY'/g" /usr/local/src/mail_to_misp/mail_to_misp_config.py
 
