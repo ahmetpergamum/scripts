@@ -81,7 +81,7 @@ ufw allow ssh
 ```
 - Allow www connections from IP address that you made ssh with
 ```
-ufw allow from $(netstat -antlp | grep "ESTABLISHED.*ssh" | awk '{print $5}' | awk -F':' '{print $1}') to any port 80
+ufw allow from $(netstat -antlp | grep "ESTABLISHED.*ssh" | awk '{print $5}' | awk -F':' '{print $1}' | grep -v "127.0.0.1" ) to any port 80
 ```
 - Finally define the default rule and enable
 ```
