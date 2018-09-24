@@ -684,7 +684,7 @@ $CAKE Admin setSetting "Session.cookie_timeout" 3600
 ### Now log in using the webinterface:
 - Default user:pass
 ```
-	admin@admin.test:admin
+admin@admin.test:admin
 ```
 
 - Using the server settings tool in the admin interface (Administration -> Server Settings), set MISP up to your preference
