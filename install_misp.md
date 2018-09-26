@@ -1,10 +1,8 @@
 INSTALLATION INSTRUCTIONS for Debian 9 "stretch" server
--------------------------
+-------------------------------------------------------
 
 0/ MISP debian stable install - Status
 --------------------------------------
-
-Maintained and tested by @SteveClement on 20180705
 
 ### Some configurables used below:
 
