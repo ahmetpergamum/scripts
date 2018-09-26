@@ -24,7 +24,9 @@ python3 setup.py install
 ### Problems after installation
 #### Importing stix documents
 For execution error logs look up the `/var/www/MISP/app/tmp/logs/exec-error.log` file
+
 There is a permission error while reading files.
+
 In order to import stix formatted documents permission error should be eliminated with changing ownership of this directory `/usr/local/lib/python3.6/dist-packages/pymisp/data/`
 
 ```
@@ -45,4 +47,9 @@ $CAKE Admin setSetting "MISP.disable_emailing" false
 - If you really want to remove them, simply log into MYSQL and run the following query:
 ```
 delete from misp.jobs;
+```
+#### Enabling tags from the taxonomies
+For using already defined tags, some taxonomies should be enabled.
+```
+Event actions > List Taxonomies > Push the plus sign of relavant taxonomy > Enable all tgs in it
 ```
