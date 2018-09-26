@@ -34,7 +34,7 @@ chown -R :www-data /usr/local/lib/python3.6/dist-packages/pymisp/data/
 ```
 
 #### Eliminate the email disabled error
-- For sending notifications with email
+For sending notifications with email
 ```
 $CAKE Admin setSetting "MISP.email" "<your-email-add>"
 $CAKE Admin setSetting "MISP.disable_emailing" false
