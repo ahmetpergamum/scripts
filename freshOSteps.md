@@ -323,3 +323,14 @@ sudo -E easy_install <module_name>
 export http_proxy=http://proxy:8080
 export https_proxy=https://proxy:8080
 ```
+
+xfce settings
+-------------
+### To enable dragging the windows in xfce panel
+
+Rightclick on an empty space of the task bar (or at the corner)
+
+Choose "properties" in the "Window Buttons" context menu
+
+Choose "Sorting order": "None, allow drag-and-drop"
+
