@@ -53,3 +53,16 @@ For using already defined tags, some taxonomies should be enabled.
 ```
 Event actions > List Taxonomies > Push the plus sign of relavant taxonomy > Enable all tgs in it
 ```
+
+#### Enabling delegation of events
+When the delegation of events is desired for anonymity, it should be enabled in MISP administrative settings.
+
+Additionally it should be at least two organisations registered to the same MISP instance. One of them request delegation and the other accepts and take ownership of the event.
+
+Check the settings from `Administration > Server Settings > MISP.delegation true`
+
+To enable delegation:
+
+```
+$CAKE Admin setSetting "MISP.delegation" true
+```
