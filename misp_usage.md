@@ -82,3 +82,58 @@ It's an identification number that will uniquely identify something. The idea be
 UUIDs are defined in RFC 4122. They're Universally Unique IDentifiers, that can be generated without the use of a centralized authority. There are four major types of UUIDs which are used in slightly different scenarios. All UUIDs are 128 bits in length, but are commonly represented as 32 hexadecimal characters separated by four hyphens.
 
 [Source of the discussion](https://stackoverflow.com/questions/292965/what-is-a-uuid)
+
+#### Need for reinstalling misp-modules
+
+After the initial installation of misp-modules it is needed to reinstall it again in order to run free of error.
+
+Error before the reinstall `ModuleNotFoundError: No module named 'misp_modules'`
+
+```
+cd /usr/local/src/misp-modules
+sudo pip3 install -I -r REQUIREMENTS
+sudo pip3 install -I .
+pip3 install maec lief python-magic wand yara
+pip3 install git+https://github.com/kbandla/pydeep.git
+# sudo vi /etc/rc.local, add this line: `sudo -u www-data misp-modules -s &`
+misp-modules #to start the modules
+```
+
+
+#### Enabling a module after running misp modules
+
+For viewing the module settings:` Administration > Server Settings > Plugin Settings`
+
+After running misp-modules specified module can be enabled.
+
+```
+$CAKE Admin setSetting "Plugin.Import_cuckooimport_enabled" true
+$CAKE Admin setSetting "Plugin.Import_services_url" http://<fqdn>
+```
+
+#### MISP modules documentation
+
+
+MISP modules help instructions.
+
+```
+misp-modules -h
+unsupported locale setting
+usage: misp-modules [-h] [-t] [-s] [-d] [-p P] [-l L] [-m M]
+
+misp-modules server
+
+optional arguments:
+  -h, --help  show this help message and exit
+  -t          Test mode
+  -s          Run a system install (package installed via pip)
+  -d          Enable debugging
+  -p P        misp-modules TCP port (default 6666)
+  -l L        misp-modules listen address (default localhost)
+  -m M        Register a custom module
+```
+
+To change the listening server address
+```
+misp-modules -l <ip-add> -p <port-add>
+```
