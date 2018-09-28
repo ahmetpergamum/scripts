@@ -104,11 +104,14 @@ misp-modules #to start the modules
 
 For viewing the module settings:` Administration > Server Settings > Plugin Settings`
 
+Thre will be no module settings would be seen in web interface if the modules is not started by cli.
+
 After running misp-modules specified module can be enabled.
 
 ```
 $CAKE Admin setSetting "Plugin.Import_cuckooimport_enabled" true
 $CAKE Admin setSetting "Plugin.Import_services_url" http://<fqdn>
+$CAKE Admin setSetting "Plugin.Import_services_port" <port-nu>
 ```
 
 #### MISP modules documentation
@@ -133,7 +136,8 @@ optional arguments:
   -m M        Register a custom module
 ```
 
-To change the listening server address
+To change the listening server address and port
 ```
 misp-modules -l <ip-add> -p <port-add>
 ```
+
