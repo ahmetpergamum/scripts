@@ -66,3 +66,19 @@ To enable delegation:
 ```
 $CAKE Admin setSetting "MISP.delegation" true
 ```
+#### Definition of NIDS SID
+SID (Signature IDentification) is a unique ID for rules used in Snort and Suricata.
+
+When creating a user account in MISP, it is possible to add the SID range that will be used to generate IDS rules. It would be good to propose a valid default value.
+
+By default an SID is set when creating new users.
+
+[Source of the discussion](https://github.com/MISP/MISP/issues/538)
+
+#### Definition of UUIDs
+
+It's an identification number that will uniquely identify something. The idea being that that id number will be universally unique. Thus, no two things should have the same uuid.
+
+UUIDs are defined in RFC 4122. They're Universally Unique IDentifiers, that can be generated without the use of a centralized authority. There are four major types of UUIDs which are used in slightly different scenarios. All UUIDs are 128 bits in length, but are commonly represented as 32 hexadecimal characters separated by four hyphens.
+
+[Source of the discussion](https://stackoverflow.com/questions/292965/what-is-a-uuid)
