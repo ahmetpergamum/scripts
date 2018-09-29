@@ -334,3 +334,23 @@ Choose "properties" in the "Window Buttons" context menu
 
 Choose "Sorting order": "None, allow drag-and-drop"
 
+
+opera settings
+--------------
+### To view videos like in chrome browser
+
+Download chromium codecs from packages website.
+```
+wget http://security.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-codecs-ffmpeg-extra_69.0.3497.81-0ubuntu0.16.04.1_amd64.deb
+```
+
+Extract the deb file into a tmp directory
+```
+mkdir tmp
+dpkg-deb -R chromium-codecs-ffmpeg-extra_70.0.3534.4-0ubuntu1_ppa2_16.04.1_amd64.deb tmp
+```
+Copy `libffmpeg.so` file from chromium to opera directory.
+
+```
+sudo cp tmp/usr/lib/chromium-browser/libffmpeg.so /usr/lib/x86_64-linux-gnu/opera/libffmpeg.so
+```
