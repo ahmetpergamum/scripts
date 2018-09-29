@@ -20,6 +20,8 @@ Contents
 - [Certificate Settings](./freshOSteps.md#certificate-settings)
 - [Git Settings](./freshOSteps.md#git-settings)
 - [Proxy Settings](./freshOSteps.md#proxy-settings)
+- [Xfce Settings](./freshOSteps.md#xfce-settings)
+- [Opera Settings](./freshOSteps.md#opera-settings)
 
 useful tools
 ------------
