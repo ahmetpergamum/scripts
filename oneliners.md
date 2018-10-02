@@ -20,4 +20,9 @@ remove unwanted newlines
 cat file| tr -d '\n' > file2
 ```
 
+rename a bunch of files
+-----------------------
+```
+rename 's/pattern/change/' *.png
+```
 

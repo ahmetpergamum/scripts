@@ -4,7 +4,7 @@ Basic steps after new OS install
 Contents
 --------
 
-- [Useful Tools](./freshOSteps.md#useful-tools)
+- [Useful Tools](#useful-tools)
 - [Zsh Installation](./freshOSteps.md#zsh-installation)
 	- [Oh-My-Zsh-Installation](./freshOSteps.md#oh-my-zsh-installation)
 		- [Powerline-Fonts](./freshOSteps.md#powerline-fonts-installation)

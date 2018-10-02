@@ -12,6 +12,7 @@ show databases;
 use foo_database;
 ```
 
+
 Counting rows
 -------------
 Count the rows of a specific table
