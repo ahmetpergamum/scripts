@@ -198,6 +198,14 @@ Hereafter latex sees these files whereever it is executed.
 
 [Source of the discussion](https://tex.stackexchange.com/a/1138)
 
+# Track changes with latexdiff
+In order to track changes with latexdiff and to include all documents which included in main .tex file (with `--flatten` option).
+```
+latexdiff --flatten old.tex new.tex > diff.tex
+```
+
+
+
 virtualbox installation
 -----------------------
 ### with apt
