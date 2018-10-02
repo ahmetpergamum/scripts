@@ -5,7 +5,8 @@ Contents
 --------
 
 - [Show databases](#showDatabases)
-# Show databases and use a specific database {#showDatabases}
+
+# Show databases and use a specific database <a name="showDatabases"></a>
 ```
 show databases;
 use foo_database;
