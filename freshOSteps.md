@@ -181,6 +181,20 @@ pdflatex test.tex
 bibtex reference_file
 pdflatex test.tex
 ```
+# Custom class and style files management
+Move custom .sty or .cls files to make them available to all .tex files
+
+First determine the Tex home directory whixh is usually `~/texmf/`
+```
+kpsewhich -var-value=TEXMFHOME
+```
+Create directory according to TeX directory structure
+```
+mkdir -p ~/texmf/tex/latex/commonstuff/
+```
+Move files with these extensions `.cls .def .sty .bst`.
+Hereafter latex sees these files whereever it is executed.
+
 virtualbox installation
 -----------------------
 ### with apt
