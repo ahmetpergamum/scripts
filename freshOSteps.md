@@ -34,7 +34,7 @@ sudo apt install unrar
 sudo -H pip install --upgrade pip
 sudo -H pip install requests
 sudo -H pip install beautifulsoup4
-sudo apt install pdftk
+sudo apt install pdftk # did not work on 18.04
 sudo apt install vim-gtk
 sudo apt install ttf-mscorefonts-installer
 ```
@@ -56,7 +56,7 @@ ZSH_THEME="agnoster"
 ### powerline-fonts installation
 in order to view beatiful themes run this command, powerline-fonts
 ```
-sudo apt-get install fonts-powerline
+sudo apt install fonts-powerline
 ```
 manual installation
 ```
@@ -94,12 +94,12 @@ If vim version is newer than  Vim 7.4.1578 with Python 2 or Python 3 support
 Ubuntu 16.04 and later have a Vim that's recent enough.
 For vim youcompleteme install development tools and CMake:
 ```
-sudo apt-get install build-essential cmake
+sudo apt install build-essential cmake
 
 ```
 Make sure you have Python headers installed
 ```
-sudo apt-get install python-dev python3-dev
+sudo apt install python-dev python3-dev
 ```
 Add this line to .vimrc for vim-plug installation
 ```
@@ -126,7 +126,7 @@ sudo apt install neovim
 ```
 python prerequisities
 ```
-sudo apt-get install python-dev python-pip python3-dev python3-pip
+sudo apt install python-dev python-pip python3-dev python3-pip
 ```
 vim plug installation with neovim
 ```
@@ -144,8 +144,8 @@ If there is a problem (optional);
 sudo add-apt-repository universe
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
 sudo add-apt-repository "deb http://archive.canonical.com/ubuntu $(lsb_release -sc) partner"
-sudo apt-get update
-sudo apt-get install libgconf2-4 libnss3-1d libxss1
+sudo apt update
+sudo apt install libgconf2-4 libnss3-1d libxss1
 sudo apt install -f
 ```
 
@@ -161,6 +161,10 @@ latex installation
 ------------------
 ```
 sudo apt install texlive
+```
+For resolve vimtex warning issue
+```
+sudo apt install latexmk
 ```
 Run latex to produce documents from .tex docs
 ```
@@ -255,9 +259,9 @@ youtube-dl installation
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
 sudo chmod a+rx /usr/local/bin/youtube-dl
 ```
-extract audio you should install libav tools
+extract audio you should install ffmpeg
 ```
-sudo apt-get install -y libav-tools
+sudo apt install ffmpeg
 ```
 sample command
 ```
