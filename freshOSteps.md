@@ -236,7 +236,10 @@ dpkg -i virtualbox-5.2_5.2.8-121009_Ubuntu_xenial_amd64.deb
 vpn installation
 ----------------
 ```
-sudo apt install gdebi gksu
+sudo apt install libqtcore4
+sudo apt install libqtgui4
+sudo apt install libgnome-keyring0
+sudo apt install gdebi
 sudo ./via_vpn_bin_file
 ```
 undo upstarting the vpn service at start
