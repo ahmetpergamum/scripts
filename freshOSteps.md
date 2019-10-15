@@ -11,6 +11,7 @@ Contents
 - [Vim-Plug Installation](#vim-plug-installation)
 - [Vim Plugin Youcompleteme Installation](#vim-plugin-youcompleteme-installation)
 - [Neovim Installation](#neovim-installation)
+- [NodeJs Installation](#nodejs-installation)
 - [Chrome Installation](#chrome-installation)
 - [flash plugin for firefox](#flash-plugin-for-firefox)
 - [Latex Installation](#latex-installation)
@@ -134,6 +135,13 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
+nodeJs installation
+-------------------
+version 10.x
+```
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
 chrome installation
 -------------------
 ```
