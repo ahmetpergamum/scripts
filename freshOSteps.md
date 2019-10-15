@@ -134,6 +134,22 @@ vim plug installation with neovim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
+transition to neovim from vim
+use your existing ~/.vimrc, files, and plugins located within ~/.vim without having to symlink the files.
+```
+mkdir -p ~/.config/nvim/
+cp ~/.vimrc ~/.config/nvim/init.vim
+cp -r ~/.vim/plugged ~/.config/nvim/plugged
+```
+change this line in your `.config/nvim/init.vim` file
+```
+call plug#begin('~/.vim/plugged')
+```
+to this
+```
+call plug#begin('~/.config/nvim/plugged')
+```
+powerline plugin is not supported in neovim so comment out this plugin in your init.vim file
 
 nodeJs installation
 -------------------
