@@ -161,6 +161,7 @@ flash plugin for firefox
 ------------------------
 Download latest adobe flash plugin [download page](https://get.adobe.com/flashplayer/)
 ```
+cd && mkdir flashPlayer && cd flashPlayer
 tar zxvf flash_player_npapi_linux.x86_64.tar.gz
 sudo cp libflashplayer.so /usr/lib/firefox-addons/plugins
 ```
