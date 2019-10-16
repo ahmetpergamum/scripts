@@ -151,6 +151,14 @@ call plug#begin('~/.config/nvim/plugged')
 ```
 powerline plugin is not supported in neovim so comment out this plugin in your init.vim file
 
+To use the neovim as default editor when you type `vi` or `vim` add below snippet to the `.bashrc` or `.zshrc` file
+```
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+  alias vi='nvim'
+fi
+```
+
 nodeJs installation
 -------------------
 version 10.x
