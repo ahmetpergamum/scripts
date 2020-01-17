@@ -38,6 +38,7 @@ sudo -H pip install beautifulsoup4
 sudo apt install pdftk # did not work on 18.04
 sudo apt install vim-gtk
 sudo apt install ttf-mscorefonts-installer
+sudo apt install yarn
 ```
 
 zsh installation
